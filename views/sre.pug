@@ -1,0 +1,52 @@
+extends layout
+
+block content
+  h1 Create Source Retrieval Effort (SRE)
+
+  div(class="col-md-12")
+    form(action="/api/sre", method="post", class="well")
+      div(class="form-group")
+        label(for="platforms")
+          | Platforms
+        input(type="text", name="platforms", class="form-control", placeholder="Google, Google Scholar, Linkedin, ...")
+        label(for="keywords")
+          | Keywords
+        input(type="text", name="keywords", class="form-control", placeholder="cbr, case based reasoning, dl, artificial intelligence, ...")
+        label(for="sources")
+          | Sources:
+        select(name="sources" class="form-control" multiple)
+          option(value="a")
+            | a
+          option(value="b")
+            | b
+          option(value="c")
+            | c
+          input(id="btnAddSrc" type="submit" class="btn btn-info" value="Add new source")
+        label(for="backlog")
+          | Browsing Backlog
+        input(type="file", name="backlog", size="50", accept="text/*")
+      input(type="submit" class="btn btn-success")
+
+//-   div(class="col-md-6")
+//-     h2 Users
+
+//-     ul
+//-     each user in users
+//-       li
+//-         strong
+//-           = user.username
+//-         | &nbsp;
+//-         a(href="/users/" + user.id + "/destroy", class="btn btn-xs btn-warning") delete
+//-         ul
+//-           li
+//-             | Create task
+//-             form(action="/users/" + user.id + "/tasks/create", method="post", class="form-inline")
+//-               div(class="form-group")
+//-                 input(type="text", name="title", class="input-sm form-control")
+//-                 input(type="submit", class="btn btn-sm btn-default")
+//-           each task in user.Tasks
+//-             li
+//-               strong
+//-                 = task.title
+//-               | &nbsp;
+//-               a(href="/users/" + user.id + "/tasks/" + task.id + "/destroy",  class="btn btn-xs btn-warning") delete
