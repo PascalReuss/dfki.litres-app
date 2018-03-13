@@ -18,12 +18,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/libs', express.static(path.join(__dirname, 'node_modules')));
 
 var config = require('./config/config');
 
 var dataAccess = require('./model/dataAccess')(config);
 
 app.use('/', require('./routes/index'));
+app.use('/admin', require('./routes/admin'));
 app.use('/api/', require('./controller/admin')(dataAccess));
 
 // catch 404 and forward to error handler

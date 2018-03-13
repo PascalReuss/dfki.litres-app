@@ -1,0 +1,27 @@
+extends ../layout
+
+block content
+  h1 Create Source Retrieval Effort (SRE)
+
+  form(action="/api/sre" method="post" class="well" onsubmit="event.preventDefault();")
+    div(class="form-group")
+      label(for="platforms")
+        | Platforms
+      input(type="text" name="platforms" class="form-control" placeholder="Google, Google Scholar, Linkedin, ...")
+      label(for="keywords")
+        | Keywords
+      input(type="text" name="keywords" class="form-control" placeholder="cbr, case based reasoning, dl, artificial intelligence, ...")
+      label(for="sources")
+        | Sources:
+      button(type="button" class="btn btn-info" data-toggle="modal" data-target="#addSource-modal" style="margin:1em;") Add source to source pool
+      ul
+        li test
+        li test2
+      label(for="backlog")
+        | Browsing Backlog
+      input(type="file" name="backlog" size="50" accept="text/*")
+    input(type="submit" class="btn btn-success")
+  
+  include addSource-modal
+
+  script(src="/scripts/sre.js")
