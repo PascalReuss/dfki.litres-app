@@ -28,32 +28,32 @@ module.exports = function(config) {
 		return this.db;
 	};
 
-	this.testFind = function() {
-		return new Promise(function(fulfill, reject) {
-			db.collection('test').findOne({},function(err, doc) {
-				if (err)
-					reject(err);
-				else
-					fulfill(doc);
-			});
-		});
-	};
+	// this.testFind = function() {
+	// 	return new Promise(function(fulfill, reject) {
+	// 		db.collection('test').findOne({},function(err, doc) {
+	// 			if (err)
+	// 				reject(err);
+	// 			else
+	// 				fulfill(doc);
+	// 		});
+	// 	});
+	// };
 
-	this.testCount = function() {
-		return new Promise(function(fulfill, reject) {
-			db.collection('test').count(function(err, count) {
-				if (err)
-					reject(err);
-				else
-					fulfill(count);
-			});
-		});
-	}
+	// this.testCount = function() {
+	// 	return new Promise(function(fulfill, reject) {
+	// 		db.collection('test').count(function(err, count) {
+	// 			if (err)
+	// 				reject(err);
+	// 			else
+	// 				fulfill(count);
+	// 		});
+	// 	});
+	// }
 
-	this.testInsertOne = function(obj) {
+	this.insertNewSource = function(obj) {
 		return new Promise(function(fulfill, reject) {
 			console.log(obj);
-			db.collection('test').insertOne(obj, function(err, doc) {
+			db.collection('sources').insertOne(obj, function(err, doc) {
 				if(err)
 					reject(err);
 				else
