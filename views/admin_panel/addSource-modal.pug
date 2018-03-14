@@ -46,9 +46,12 @@ block content
                   | Source-pointer(s) (optional)
                 select(name="src-ptrs" class="form-control" size="2" multiple)
                   // TODO: load all available sources
-                  option 1
-                  option 2
-                  option 3
+                  each source in sources
+                    option(value=source._id)
+                      |"
+                      = source.title 
+                      |" by 
+                      = source.authors
 
               div(id="quality-tab" class="tab-pane fade form-group well")
                 label(for="src-q-subjectRelevance")

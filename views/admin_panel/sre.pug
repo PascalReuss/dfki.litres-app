@@ -3,7 +3,7 @@ extends ../layout
 block content
   h1 Create Source Retrieval Effort (SRE)
 
-  form(action="/api/sre" method="post" class="well" onsubmit="event.preventDefault();")
+  form(id="newSRE-form" action="/api/sre" method="post" class="well" onsubmit="event.preventDefault();")
     div(class="form-group")
       label(for="platforms")
         | Platforms
@@ -13,10 +13,10 @@ block content
       input(type="text" name="keywords" class="form-control" placeholder="cbr, case based reasoning, dl, artificial intelligence, ...")
       label(for="sources")
         | Sources:
+      input(type="hidden" name="sources" class="form-control" value="1, 2, 3")
       button(type="button" class="btn btn-info" data-toggle="modal" data-target="#addSource-modal" style="margin:1em;") Add source
-      ul
-        li test
-        li test2
+      ul(id="retrievedSources-li")
+        // loaded via js
       label(for="backlog")
         | Browsing Backlog
       input(type="file" name="backlog" size="50" accept="text/*")

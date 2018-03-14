@@ -1,4 +1,5 @@
-var mongoClient = require('mongodb').MongoClient;
+var mongo = require('mongodb');
+var mongoClient = mongo.MongoClient;
 var Promise = require('promise');
 var debug = require('debug')('App');
 var f = require('util').format;
@@ -49,6 +50,29 @@ module.exports = function(config) {
 	// 		});
 	// 	});
 	// }
+
+	this.findSources = function() {
+		return new Promise(function(fulfill, reject) {
+			db.collection('sources').find({}).toArray(function(err, doc) {
+				if (err)
+					reject(err);
+				else
+					fulfill(doc);
+			});
+		});
+	};
+
+	this.findSource = function(srcId) {
+		var o_id = new mongo.ObjectID(srcId);
+		return new Promise(function(fulfill, reject) {
+			db.collection('sources').findOne({_id: o_id}, function(err, doc) {
+				if (err)
+					reject(err);
+				else
+					fulfill(doc);
+			});
+		});
+	};
 
 	this.insertNewSource = function(obj) {
 		return new Promise(function(fulfill, reject) {

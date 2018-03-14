@@ -1,3 +1,21 @@
+var currentSRE = {};
+
+let compileSRE = function() {
+  let sre = {};
+  // read input fields
+  $("form#newSRE-form :input").each(function(){
+    let input = $(this);
+    let val = input.val(),
+      type = input.attr('type'),
+      name = input.attr('name');
+    if (type !== 'submit' && val !== "")
+      sre[name] = val;
+  });
+
+  console.log(sre);
+  // TODO: compile, update and retrieve SRE-draft
+};
+
 let compileSource = function() {
   let newSource = {};
   // for each input, add key-value attribute to source object 
@@ -52,14 +70,17 @@ let saveSrc = function() {
   } else {
     $('.modal').modal('hide');
     document.getElementById('newSource-form').reset();
-    $.post('/api/source', newSource, function() {
+    $.post('/api/sources', newSource, function() {
       toastr.success('Saving new source!');
     }).done(function(data) {
       console.log('Received feedback:', data);
+      // $('#retrievedSources-li').append("<li>test</li>");
+      // TODO: append to ul & to hidden input (https://stackoverflow.com/questions/3067447/jquery-add-to-hidden-input-field-on-keypress)!
     });
   }
 };
 
+
 $(document).ready(function(){
-  console.log('Page ready.');
+  console.log('page ready.');
 });
