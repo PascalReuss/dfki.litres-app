@@ -187,4 +187,3 @@ $(document).ready(function(){
 
 // TODO: trim arrays in compile steps
 // TODO: upload file correctly
-// TODO: unify stages in admin api (& dataAccess)

@@ -29,31 +29,9 @@ module.exports = function(config) {
 		return this.db;
 	};
 
-	// this.testFind = function() {
-	// 	return new Promise(function(fulfill, reject) {
-	// 		db.collection('test').findOne({},function(err, doc) {
-	// 			if (err)
-	// 				reject(err);
-	// 			else
-	// 				fulfill(doc);
-	// 		});
-	// 	});
-	// };
-
-	// this.testCount = function() {
-	// 	return new Promise(function(fulfill, reject) {
-	// 		db.collection('test').count(function(err, count) {
-	// 			if (err)
-	// 				reject(err);
-	// 			else
-	// 				fulfill(count);
-	// 		});
-	// 	});
-	// }
-
-	this.findSources = function() {
+	this.findAllIn = function(collection) {
 		return new Promise(function(fulfill, reject) {
-			db.collection('sources').find({}).toArray(function(err, doc) {
+			db.collection(collection).find({}).toArray(function(err, doc) {
 				if (err)
 					reject(err);
 				else
@@ -62,21 +40,21 @@ module.exports = function(config) {
 		});
 	};
 
-	this.findSource = function(srcId) {
-		var o_id = new mongo.ObjectID(srcId);
+	this.findDocIn = function(collection, docId) {
+		var o_id = new mongo.ObjectID(docId);
 		return new Promise(function(fulfill, reject) {
-			db.collection('sources').findOne({_id: o_id}, function(err, doc) {
+			db.collection(collection).findOne({_id: o_id}, function(err, doc) {
 				if (err)
 					reject(err);
 				else
 					fulfill(doc);
 			});
 		});
-	};
-
-	this.insertNewSource = function(obj) {
+	}
+	
+	this.insertDocInto = function(collection, obj) {
 		return new Promise(function(fulfill, reject) {
-			db.collection('sources').insertOne(obj, function(err, doc) {
+			db.collection(collection).insertOne(obj, function(err, doc) {
 				if(err)
 					reject(err);
 				else
@@ -85,34 +63,11 @@ module.exports = function(config) {
 		});
 	};
 
-	this.findDraft = function(draftId) {
-		var o_id = new mongo.ObjectID(draftId);
+	this.replaceDocIn = function(collection, docId, obj) {
+		var o_id = new mongo.ObjectID(docId);
 		return new Promise(function(fulfill, reject) {
-			db.collection('drafts').findOne({_id: o_id}, function(err, doc) {
+			db.collection(collection).update({_id: o_id}, obj, function(err, doc) {
 				if (err)
-					reject(err);
-				else
-					fulfill(doc);
-			});
-		});
-	}
-
-	this.updateDraft = function(draftId, obj) {
-		var o_id = new mongo.ObjectID(draftId);
-		return new Promise(function(fulfill, reject) {
-			db.collection('drafts').update({_id: o_id}, obj, function(err, doc) {
-				if (err)
-					reject(err);
-				else
-					fulfill(doc);
-			});
-		});
-	}
-
-	this.insertNewSre = function(obj) {
-		return new Promise(function(fulfill, reject) {
-			db.collection('sres').insertOne(obj, function(err, doc) {
-				if(err)
 					reject(err);
 				else
 					fulfill(doc);
@@ -121,6 +76,5 @@ module.exports = function(config) {
 	}
 
 	return this;
-	
 };
 

@@ -3,6 +3,9 @@ var router = express.Router();
 var debug = require('debug')('App');
 
 module.exports = function(dataAccess) {
+	var draft_id_map = {
+		'sre': '5aa9449e190391d445004d8e'
+	}
 
 	router.get('/', function(req, res, next) {
 		return res.send({
@@ -10,73 +13,40 @@ module.exports = function(dataAccess) {
 		});
 	});
 
-	router.get('/sources', function(req, res, next) {
-		dataAccess.findSources().done(function(doc) {
+	router.get('/:stage', function(req, res, next) {
+		dataAccess.findAllIn(req.params.stage).done(function(doc) {
 			return res.json(doc);
 		}, function(err) {
 			console.log(err);
 			return res.status(500).send({ msg: err });
 		});
 	});
-	router.get('/sources/:id', function(req, res, next) {
-		dataAccess.findSource(req.params.id).done(function(doc) {
+
+	router.get('/:stage/:id', function(req, res, next) {
+		var trueId = req.params.id in draft_id_map ? draft_id_map[req.params.id] : req.params.id;
+		dataAccess.findDocIn(req.params.stage, trueId).done(function(doc) {
 			return res.json(doc);
 		}, function(err) {
 			console.log(err);
 			return res.status(500).send({ msg: err });
 		});
 	});
-	router.post('/sources', function(req, res, next) {
-		dataAccess.insertNewSource(req.body).done(function() {
+
+	router.post('/:stage', function(req, res, next) {
+		dataAccess.insertDocInto(req.params.stage, req.body).done(function() {
 			return res.send({
-				msg: 'Source inserted successfully.',
+				msg: 'Inserted into '+req.params.stage+' successfully.',
 				source: req.body
 			});
 		});
 	});
 
-	router.get('/drafts/:stage', function(req, res, next) {
-		switch(req.params.stage) {
-			case 'sre':
-				dataAccess.findDraft('5aa9449e190391d445004d8e').done(function(doc) {
-					return res.json(doc);
-				}, function(err) {
-					console.log(err);
-					return res.status(500).send({ msg: err });
-				});
-				break;
-			default:
-				return res.send({
-					msg: 'No valid stage!',
-					invalid_stage: req.params.stage
-				});
-		}
-		
-	});
-	router.post('/drafts/:stage', function (req, res, next) {
-		switch(req.params.stage) {
-			case 'sre':
-				dataAccess.updateDraft('5aa9449e190391d445004d8e', req.body);
-				return res.send({
-					msg: 'Updated sre-draft.',
-					draft: req.body
-				});
-				break;
-			default:
-				return res.send({
-					msg: 'No valid stage to update!',
-					invalid_stage: req.params.stage,
-					draft: req.body
-				});
-		}
-	});
-
-	router.post('/sres', function(req, res, next) {
-		dataAccess.insertNewSre(req.body).done(function() {
-			return res.send({
-				msg: 'Sre inserted successfully.',
-				source: req.body
-			});
+	router.post('/drafts/:id', function (req, res, next) {
+		var o_id = draft_id_map[req.params.id];
+		dataAccess.replaceDocIn('drafts', draft_id_map[req.params.id], req.body);
+		return res.send({
+			msg: 'Updated draft for '+req.params.id+'.',
+			draft: req.body
 		});
 	});
 

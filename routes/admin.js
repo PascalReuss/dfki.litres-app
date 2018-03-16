@@ -4,7 +4,7 @@ var router = express.Router();
 module.exports = function(dataAccess) {
 
   router.get('/sre', function(req, res) {
-    dataAccess.findSources().done(function(sources) {
+    dataAccess.findAllIn('sources').done(function(sources) {
 			return res.render('admin_panel/sre', {
         _title_: 'Admin - SRE',
         sources: sources
