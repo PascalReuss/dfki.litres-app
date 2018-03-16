@@ -2,3 +2,11 @@ body {
   padding: 50px;
   font: 14px "Helvetica Neue","Open Sans",sans-serif;
 }
+
+input+label, textarea+label, select+label {
+  margin-top: 1em;
+}
+
+textarea+input {
+  margin: 1em;
+}

@@ -1,4 +1,5 @@
-var mongoClient = require('mongodb').MongoClient;
+var mongo = require('mongodb');
+var mongoClient = mongo.MongoClient;
 var Promise = require('promise');
 var debug = require('debug')('App');
 var f = require('util').format;
@@ -28,9 +29,9 @@ module.exports = function(config) {
 		return this.db;
 	};
 
-	this.testFind = function() {
+	this.findAllIn = function(collection) {
 		return new Promise(function(fulfill, reject) {
-			db.collection('test').findOne({},function(err, doc) {
+			db.collection(collection).find({}).toArray(function(err, doc) {
 				if (err)
 					reject(err);
 				else
@@ -39,21 +40,21 @@ module.exports = function(config) {
 		});
 	};
 
-	this.testCount = function() {
+	this.findDocIn = function(collection, docId) {
+		var o_id = new mongo.ObjectID(docId);
 		return new Promise(function(fulfill, reject) {
-			db.collection('test').count(function(err, count) {
+			db.collection(collection).findOne({_id: o_id}, function(err, doc) {
 				if (err)
 					reject(err);
 				else
-					fulfill(count);
+					fulfill(doc);
 			});
 		});
 	}
-
-	this.testInsertOne = function(obj) {
+	
+	this.insertDocInto = function(collection, obj) {
 		return new Promise(function(fulfill, reject) {
-			console.log(obj);
-			db.collection('test').insertOne(obj, function(err, doc) {
+			db.collection(collection).insertOne(obj, function(err, doc) {
 				if(err)
 					reject(err);
 				else
@@ -62,7 +63,18 @@ module.exports = function(config) {
 		});
 	};
 
+	this.replaceDocIn = function(collection, docId, obj) {
+		var o_id = new mongo.ObjectID(docId);
+		return new Promise(function(fulfill, reject) {
+			db.collection(collection).update({_id: o_id}, obj, function(err, doc) {
+				if (err)
+					reject(err);
+				else
+					fulfill(doc);
+			});
+		});
+	}
+
 	return this;
-	
 };
 
