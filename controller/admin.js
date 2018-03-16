@@ -35,8 +35,49 @@ module.exports = function(dataAccess) {
 		});
 	});
 
-	router.post('/drafts/sre', function (req, res, next) {
-		// TODO
+	router.get('/drafts/:stage', function(req, res, next) {
+		switch(req.params.stage) {
+			case 'sre':
+				dataAccess.findDraft('5aa9449e190391d445004d8e').done(function(doc) {
+					return res.json(doc);
+				}, function(err) {
+					console.log(err);
+					return res.status(500).send({ msg: err });
+				});
+				break;
+			default:
+				return res.send({
+					msg: 'No valid stage!',
+					invalid_stage: req.params.stage
+				});
+		}
+		
+	});
+	router.post('/drafts/:stage', function (req, res, next) {
+		switch(req.params.stage) {
+			case 'sre':
+				dataAccess.updateDraft('5aa9449e190391d445004d8e', req.body);
+				return res.send({
+					msg: 'Updated sre-draft.',
+					draft: req.body
+				});
+				break;
+			default:
+				return res.send({
+					msg: 'No valid stage to update!',
+					invalid_stage: req.params.stage,
+					draft: req.body
+				});
+		}
+	});
+
+	router.post('/sres', function(req, res, next) {
+		dataAccess.insertNewSre(req.body).done(function() {
+			return res.send({
+				msg: 'Sre inserted successfully.',
+				source: req.body
+			});
+		});
 	});
 
 	return router;

@@ -76,7 +76,6 @@ module.exports = function(config) {
 
 	this.insertNewSource = function(obj) {
 		return new Promise(function(fulfill, reject) {
-			console.log(obj);
 			db.collection('sources').insertOne(obj, function(err, doc) {
 				if(err)
 					reject(err);
@@ -85,6 +84,41 @@ module.exports = function(config) {
 			});
 		});
 	};
+
+	this.findDraft = function(draftId) {
+		var o_id = new mongo.ObjectID(draftId);
+		return new Promise(function(fulfill, reject) {
+			db.collection('drafts').findOne({_id: o_id}, function(err, doc) {
+				if (err)
+					reject(err);
+				else
+					fulfill(doc);
+			});
+		});
+	}
+
+	this.updateDraft = function(draftId, obj) {
+		var o_id = new mongo.ObjectID(draftId);
+		return new Promise(function(fulfill, reject) {
+			db.collection('drafts').update({_id: o_id}, obj, function(err, doc) {
+				if (err)
+					reject(err);
+				else
+					fulfill(doc);
+			});
+		});
+	}
+
+	this.insertNewSre = function(obj) {
+		return new Promise(function(fulfill, reject) {
+			db.collection('sres').insertOne(obj, function(err, doc) {
+				if(err)
+					reject(err);
+				else
+					fulfill(doc);
+			});
+		});
+	}
 
 	return this;
 	
