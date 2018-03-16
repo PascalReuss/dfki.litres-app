@@ -137,14 +137,18 @@ let saveSrc = function() {
       toastr.success('Saving new source!');
     }).done(function(data) {
       console.log('Received feedback:', data);
-      // append characteristics of new Source to SRE
+      
+      // append characteristics of new Source to SRE ...
       $('#retrievedSources-ul').append('<li>"'+data.source.title+'" by '+data.source.authors+'</li>');
-      // ... also to hidden input field
+      // ... also to hidden input field ...
       let hiddenAppend = $('input[name="sources"]');
       if (hiddenAppend.val() === "")
         hiddenAppend.val(data.source._id);
       else
         hiddenAppend.val(hiddenAppend.val() + ',' + data.source._id);
+      // ... and also to referencing-selection in add-new-src!
+      $('select[name="src-ptrs"]').append('<option value="'+data.source._id+'"> "'+data.source.title+'" by '+data.source.authors);
+
       saveSreDraft();   // js-update does not trigger hidden-input-onChange
     });
   }

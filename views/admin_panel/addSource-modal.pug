@@ -41,10 +41,10 @@ block content
                 input(type="date" name="src-date" class="form-control" required)
                 label(for="src-abstract")
                   | Abstract
-                textarea(name="src-abstract" class="form-control" rows="5" required)
+                textarea(name="src-abstract" class="form-control" rows="9" required)
                 label(for="src-ptrs")
                   | Source-pointer(s) (optional)
-                select(name="src-ptrs" class="form-control" size="2" multiple)
+                select(name="src-ptrs" class="form-control" size="5" multiple)
                   // TODO: load all available sources
                   each source in sources
                     option(value=source._id)
