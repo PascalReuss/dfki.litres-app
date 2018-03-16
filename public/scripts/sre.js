@@ -13,9 +13,12 @@ let compileSource = function() {
     if (type !== 'submit' && val !== "" && !isEmptyArray(val))
       newSource[name.slice(4)] = val;
   });
-  // separate authors-string (try-catch in case is still empty)
+  // separate authors- & keywords-string (try-catch in case is still empty)
   try {
-    newSource['authors'] = newSource['authors'].split(',');
+    newSource['authors'] = newSource['authors'].split(',').map(function(item){return item.trim();});
+  } catch(err) {}
+  try {
+    newSource['keywords'] = newSource['keywords'].split(',').map(function(item){return item.trim();});
   } catch(err) {}
   // add urldate
   let now = new Date();
@@ -62,7 +65,7 @@ let compileSRE = function() {
       else {
         // separate list-strings (try-catch in case is still empty)
         try {
-          sre[name] = val.split(',');
+          sre[name] = val.split(',').map(function(item){return item.trim();});
         } catch(err) {}
       }
     }
@@ -184,6 +187,3 @@ $(document).ready(function(){
     console.log('Received sre-draft', data);
   });
 });
-
-// TODO: trim arrays in compile steps
-// TODO: upload file correctly
