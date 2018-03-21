@@ -60,7 +60,9 @@ let compileSRE = function() {
       type = input.attr('type'),
       name = input.attr('name');
     if (type !== 'submit' && val !== "") {
-      if (name === 'backlog')
+      if (name === 'engaging_query')
+        sre['engaging_query'] = val;
+      else if (name === 'backlog')
         sre['backlog'] = val;
       else {
         // separate list-strings (try-catch in case is still empty)
@@ -94,6 +96,10 @@ let validateSRE = function(sre) {
  */
 
 let fillForm = function(draft) {
+  try{
+      $('input[name="engaging_query"]').val(draft[engaging_query]);
+  } catch(err) {}
+  
   let keys = ['platforms', 'keywords'];
   for (i in keys) {
     let key = keys[i];

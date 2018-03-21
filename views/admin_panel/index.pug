@@ -1,13 +1,24 @@
 extends ../layout
 
 block content
+  h1 Continue:
+  p
+    ul(class="arrow-list")
+      li
+        a(href='/admin/sre') SRE
+      li 
+        a(href='/admin/query/[...]') Query ([...])
+      li
+        a(href='/admin/process') SRE
+      li
+        a(href='/admin/result') SRE
   h1 Engage:
   p
-    ul(class="arrow-list" style="font-size: 1.3em;")
+    ul(class="arrow-list")
       li 
         a(href='/admin/sre') New (independent) SRE
-      li 
-        a(href='/admin/query') New Query-item
+      //- li 
+      //-   a(href='/admin/query') New Query-item
       //- li 
       //-   a(href='/admin/query') New Result-item
       //- li 

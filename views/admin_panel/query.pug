@@ -1,0 +1,24 @@
+extends ../layout
+
+block content
+  h1 Creating: Query
+
+  form(id="newQuery-form" action="#" class="well" onsubmit="event.preventDefault(); console.log('submitted..');")
+    div(class="form-group")
+      input(type="hidden" name="prev_ptr" class="form-control")
+      // ts added upon submission
+      label(for="desrc")
+        | Description
+      textarea(name="descr" class="form-control" rows="12" onchange="saveQueryDraft();" required)
+      label(for="srcs")
+        | Sources important to the query:
+      select(name="srcs" class="form-control" size="9" onchange="saveQueryDraft();" multiple required)
+        each source in sources
+          option(value=source._id)
+            |"
+            = source.title 
+            |" by 
+            = source.authors
+    input(type="submit" class="btn btn-success")
+  
+  script(src="/scripts/query.js")

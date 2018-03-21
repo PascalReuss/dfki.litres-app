@@ -4,7 +4,14 @@ var debug = require('debug')('App');
 
 module.exports = function(dataAccess) {
 	var draft_id_map = {
-		'sre': '5aa9449e190391d445004d8e'
+		'sre': '5aa9449e190391d445004d8e',
+		'q0': '5ab24b6d6439bf3d2dd095ff',
+		'q1': '5ab24b756439bf3d2dd09600',
+		'q2': '5ab24b786439bf3d2dd09601',
+		'q3': '5ab24b7a6439bf3d2dd09602',
+		'q4': '5ab24bc36439bf3d2dd09603',
+		'process': '5ab24eb96439bf3d2dd09604',
+		'result': '5ab24eb96439bf3d2dd09605'
 	}
 
 	router.get('/', function(req, res, next) {
