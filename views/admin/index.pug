@@ -1,0 +1,24 @@
+extends ../layout
+
+include ../templates/bootstrap-accordion
+
+block content
+  +accordion('accordion')
+    +accordion-item-primary('Current open work item', 'accordion', true)
+      ul.arrow-list
+        //- li
+        //-   a(href='admin/'activeItem.stage+'/'+activeItem.+_id)
+        //-     | Active
+        //-     =activeItem.stage
+    +accordion-item-info('Queries on hold', 'accordion', false)
+      ul.arrow-list
+        //- each query in queriesOnHold
+        //-   li
+        //-     a(href='admin/query'+query.+_id)
+        //-       query.descr
+    +accordion-item-default('Default options', 'accordion', false)
+      ul.arrow-list
+        li
+          a(href='/admin/sres') Independant SRE
+        li
+          a(href='/admin/queries') Independant Query

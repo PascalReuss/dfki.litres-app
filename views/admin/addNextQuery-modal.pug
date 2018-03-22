@@ -1,0 +1,12 @@
+include ../templates/bootstrap-modal
+
++modal('addNextQuery-modal',
+  'New Query (connected to current item)',
+  'Sketch (e.g. bulletpoints) an initial description, which can later be edited and elaborated on.')
+  form#newNextQuery-form(action="#" method="post" onsubmit="event.preventDefault(); postConnectedQuery();")
+    label(for="nxt-descr")
+      | Description (sketch)
+    textarea.form-control(name="nxt-descr" rows="12" required)
+    input.btn.btn-success(type="submit" value="Post Query")
+    
+script(src="/scripts/addNextQuery.js")

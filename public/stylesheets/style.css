@@ -14,6 +14,7 @@ textarea+input {
 .arrow-list {
   list-style: none;
   font-size: 1.3em;
+  padding-left: .5em;
 }
 .arrow-list li:before {
   content: "\00BB \0020";

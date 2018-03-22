@@ -1,4 +1,4 @@
-let queryId = window.location.pathname.split('/')[3];
+let _id = window.location.pathname.split('/')[3];
 
 /*
 * Query
@@ -19,7 +19,7 @@ let compileQuery = function() {
     // add ts
     let now = new Date();
     query['ts'] = now.toISOString();
-    
+
     return query;
 };
   
@@ -34,45 +34,44 @@ let fillForm = function(draft) {
         let type = input.attr('type'),
             name = input.attr('name');
         if (type !== "submit") {
-            input.val(draft[name]);
+            try {   // prev_ptr is optional
+                input.val(draft[name]);
+            } catch(err) {}
         }
     });
 };
 
 let saveQueryDraft = function() {
     let newQuery = compileQuery();
-    $.post('/api/drafts/'+queryId, newQuery).done(function(data) {
-      console.log(data);
+    newQuery['status'] = 'active';
+
+    $.post('/api/queries/'+_id, newQuery).done(function(data) {
+        console.log(data);
     });
 };
-  
-// let saveQuery = function() {
-//     let newQuery = compileQuery();
 
-//     // warn if no sources attached
-//     if (isEmptyArray(newSre['sources']))
-//         toastr.warn('Required attribute [' +val+ '] has no values');
+let saveQuery = function() {
+    let newQuery = compileQuery();
+    newQuery['status'] = 'done';
 
-//     // if there are errors, display them; otherwise post source
-//     if (errors.length > 0) {
-//         $.each(errors, function(key, val) {
-//         toastr.error(val);
-//         });
-//     } else {
-//         $.post('/api/sres', newSre, function() {
-//         toastr.success('Saving new SRE!');
-//         }).done(function(data) {
-//         $.post('/api/drafts/sre', {});  // clear sre draft
-//         console.log('Received feedback:', data);
-//         });
-//     }
-// };
-  
+    // note: errors are caught by html-form-warnings ...
+    
+    $.post('/api/queries'+_id, newQuery, function() {
+        toastr.success('Saving new Query!');
+    }).done(function(data) {
+        window.location = "/admin/process?prev_ptr="+_id;
+    });
+};
+
+let engageSre = function() {
+    window.location = '/admin/sres?prev_ptr='+_id;
+}
+
 
 $(document).ready(function(){
-    $.get('/api/drafts/'+queryId).done(function(data) {
+    $.get('/api/queries/'+_id).done(function(data) {
         fillForm(data);
-        console.log('Received query-draft (queriId: '+queryId+'):', data);
+        console.log('Received query-draft (queriId: '+_id+'):', data);
     });
 });
   
