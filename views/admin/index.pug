@@ -4,13 +4,13 @@ include ../templates/bootstrap-accordion
 
 block content
   +accordion('accordion')
-    +accordion-item-primary('Current open work item', 'accordion', true)
+    +accordion-item-primary('Active items', 'accordion', true)
       ul.arrow-list
         //- li
         //-   a(href='admin/'activeItem.stage+'/'+activeItem.+_id)
         //-     | Active
         //-     =activeItem.stage
-    +accordion-item-info('Queries on hold', 'accordion', false)
+    +accordion-item-info('Draft items', 'accordion', false)
       ul.arrow-list
         //- each query in queriesOnHold
         //-   li
@@ -18,7 +18,7 @@ block content
         //-       query.descr
     +accordion-item-default('Default options', 'accordion', false)
       ul.arrow-list
-        li
-          a(href='/admin/sres') Independant SRE
+        //- li
+        //-   a(href='/admin/sres') Independant SRE
         li
           a(href='/admin/queries') Independant Query

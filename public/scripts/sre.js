@@ -1,3 +1,5 @@
+let _id = window.location.pathname.split('/')[3];
+
 /*
  * Sources
  */
@@ -60,8 +62,9 @@ let compileSRE = function() {
       type = input.attr('type'),
       name = input.attr('name');
     if (type !== 'submit' && val !== "") {
-      if (name === 'engaging_query')
-        sre['engaging_query'] = val;
+      // TODO: properly chcek for non-comma-separated values, then do single-attr-fill
+      if (name === 'prev_ptr')
+        sre['prev_ptr'] = val;
       else if (name === 'backlog')
         sre['backlog'] = val;
       else {
@@ -96,11 +99,17 @@ let validateSRE = function(sre) {
  */
 
 let fillForm = function(draft) {
-  try{
-      $('input[name="engaging_query"]').val(draft[engaging_query]);
-  } catch(err) {}
-  
-  let keys = ['platforms', 'keywords'];
+  // fill single-string inputs
+  let keys = ['prev_ptr'];
+  for (i in keys) {
+    let key = keys[i];
+    try {
+      let inputAppend = $('input[name="'+key+'"]');
+      inputAppend.val(draft[key]);
+    } catch(err) {}
+  }
+  // fill multi-string inputs
+  let keys = ['platforms', 'keywords', 'sources'];
   for (i in keys) {
     let key = keys[i];
     try {
@@ -108,9 +117,8 @@ let fillForm = function(draft) {
       inputAppend.val(arrayOfStringsToString(draft[key]));
     } catch(err) {}
   }
-  
+  // fill ul with source information
   try{
-    $('input[name="sources"]').val(arrayOfStringsToString(draft.sources));
     let srcIds = draft.sources;
     for (i in srcIds) {
       $.get('/api/sources/'+srcIds[i]).done(function(source) {
@@ -162,7 +170,9 @@ let saveSrc = function() {
 
 let saveSreDraft = function() {
   let newSre = compileSRE();
-  $.post('/api/drafts/sre', newSre).done(function(data) {
+  newSre['status'] = 'active';
+
+  $.post('/api/sres/'+_id, newSre).done(function(data) {
     console.log(data);
   });
 };
@@ -173,7 +183,7 @@ let saveSre = function() {
 
   // warn if no sources attached
   if (isEmptyArray(newSre['sources']))
-    toastr.warn('Required attribute [' +val+ '] has no values');
+    toastr.warn('Required attribute ['+val+'] has no values');
 
   // if there are errors, display them; otherwise post source
   if (errors.length > 0) {
@@ -181,11 +191,11 @@ let saveSre = function() {
       toastr.error(val);
     });
   } else {
-    $.post('/api/sres', newSre, function() {
+    newSre['status'] = 'done';
+    $.post('/api/sres/'+_id, newSre, function() {
       toastr.success('Saving new SRE!');
     }).done(function(data) {
-      $.post('/api/drafts/sre', {});  // clear sre draft
-      console.log('Received feedback:', data);
+      window.location = "/admin/queries?prev_ptr="+newSre.prev_ptr;
     });
   }
 };
