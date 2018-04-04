@@ -1,0 +1,39 @@
+extends ../layout
+
+include ../templates/bootstrap-accordion
+
+block content
+  h1 Creating: Process
+
+  form#newProcess-form.well(action="#" onsubmit="event.preventDefault(); saveProcess();")
+    .form-group
+      input.form-control(type="hidden" name="prev_ptr")
+      // ts added upon submission
+    +accordion('accordion')
+      each source in sources
+        +accordion-item-default('"'+source.title+'" by '+source.author, 'accordion')
+          input.form-control(type="hidden" name=source._id+"id" value=source._id)
+          label(for=source._id+"q-applicability")
+            | Applicability 
+            span(class="glyphicon glyphicon-info-sign" title="How precisely did source apply to given query?")
+          input(type="number" name=source._id+"q-applicability" class="form-control" min="0", max="7" onchange="saveProcessDraft();" required)
+          label(for=source._id+"q-relevance")
+            | Relevance 
+            span(class="glyphicon glyphicon-info-sign" title="How relevant was the source to the result of the processing (as part of the complete corpus of (re)sources)?\nThis does not mean how much of the final answer was due to this specific source, but rather how much of the source could be used and how much impact the usage had on the resulting query-processing.")
+          input(type="number" name=source._id+"q-relevance" class="form-control" min="0", max="7" onchange="saveProcessDraft();" required)
+          label(for=source._id+"q-holism")
+            | Holism 
+            span(class="glyphicon glyphicon-info-sign" title="How good would source answer query on its own?")
+          input(type="number" name=source._id+"q-holism" class="form-control" min="0", max="7" onchange="saveProcessDraft();" required)
+          label(for=source._id+"comment")
+            | Comment (optional)
+          textarea.form-control(name=source._id+"comment" rows="3" onchange="saveProcessDraft();")
+      label(for="proposition")
+        | Proposition
+      textarea.form-control(name="proposition" rows="6" onchange="saveProcessDraft();" required)
+      button.btn.btn-info(type="button" data-toggle="modal" data-target="#addNextQuery-modal" style="margin:1em; float: right;") Open connected Query
+    input.btn.btn-success(type="submit")
+
+  include addNextQuery-modal
+
+  script(src="/scripts/process.js")

@@ -40,6 +40,17 @@ module.exports = function(config) {
 		});
 	};
 
+	// this.findAllWhere = function(collection, query) {
+	// 	return new Promise(function(fulfill, reject) {
+	// 		db.collection(collection).find(query).toArray(function(err, doc) {
+	// 			if (err)
+	// 				reject(err);
+	// 			else
+	// 				fulfill(doc);
+	// 		});
+	// 	});
+	// };
+
 	this.findDocIn = function(collection, docId) {
 		var o_id = new mongo.ObjectID(docId);
 		return new Promise(function(fulfill, reject) {

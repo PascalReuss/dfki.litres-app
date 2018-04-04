@@ -3,10 +3,19 @@ body {
   font: 14px "Helvetica Neue","Open Sans",sans-serif;
 }
 
-input+label, textarea+label, select+label {
+input+label, textarea+label, select+label, .panel+label {
   margin-top: 1em;
 }
 
 textarea+input {
   margin: 1em;
+}
+
+.arrow-list {
+  list-style: none;
+  font-size: 1.3em;
+  padding-left: .5em;
+}
+.arrow-list li:before {
+  content: "\00BB \0020";
 }

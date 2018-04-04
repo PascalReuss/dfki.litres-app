@@ -3,9 +3,6 @@ var router = express.Router();
 var debug = require('debug')('App');
 
 module.exports = function(dataAccess) {
-	var draft_id_map = {
-		'sre': '5aa9449e190391d445004d8e'
-	}
 
 	router.get('/', function(req, res, next) {
 		return res.send({
@@ -23,8 +20,7 @@ module.exports = function(dataAccess) {
 	});
 
 	router.get('/:stage/:id', function(req, res, next) {
-		var trueId = req.params.id in draft_id_map ? draft_id_map[req.params.id] : req.params.id;
-		dataAccess.findDocIn(req.params.stage, trueId).done(function(doc) {
+		dataAccess.findDocIn(req.params.stage, req.params.id).done(function(doc) {
 			return res.json(doc);
 		}, function(err) {
 			console.log(err);
@@ -41,12 +37,11 @@ module.exports = function(dataAccess) {
 		});
 	});
 
-	router.post('/drafts/:id', function (req, res, next) {
-		var o_id = draft_id_map[req.params.id];
-		dataAccess.replaceDocIn('drafts', draft_id_map[req.params.id], req.body);
+	router.post('/:stage/:id', function (req, res, next) {
+		dataAccess.replaceDocIn(req.params.stage, req.params.id, req.body);
 		return res.send({
-			msg: 'Updated draft for '+req.params.id+'.',
-			draft: req.body
+			msg: 'Updated ['+req.params.stage+']-doc of id ['+req.params.id+'].',
+			doc: req.body
 		});
 	});
 
