@@ -5,7 +5,7 @@ include ../templates/bootstrap-accordion
 block content
   h1 Creating: Process
 
-  form#newQuery-form.well(action="#" onsubmit="event.preventDefault(); saveProcess();")
+  form#newProcess-form.well(action="#" onsubmit="event.preventDefault(); saveProcess();")
     .form-group
       input.form-control(type="hidden" name="prev_ptr")
       // ts added upon submission
@@ -14,17 +14,17 @@ block content
         +accordion-item-default('"'+source.title+'" by '+source.author, 'accordion')
           input.form-control(type="hidden" name=source._id+"id" value=source._id)
           label(for=source._id+"q-applicability")
-            | Applicability
+            | Applicability 
             span(class="glyphicon glyphicon-info-sign" title="How precisely did source apply to given query?")
-          input(type="number" name=source._id+"src-q-subjectRelevance" class="form-control" min="0", max="7" required)
+          input(type="number" name=source._id+"q-applicability" class="form-control" min="0", max="7" onchange="saveProcessDraft();" required)
           label(for=source._id+"q-relevance")
-            | Relevance
+            | Relevance 
             span(class="glyphicon glyphicon-info-sign" title="How relevant was the source to the result of the processing (as part of the complete corpus of (re)sources)?\nThis does not mean how much of the final answer was due to this specific source, but rather how much of the source could be used and how much impact the usage had on the resulting query-processing.")
-          input(type="number" name=source._id+"src-q-subjectRelevance" class="form-control" min="0", max="7" required)
+          input(type="number" name=source._id+"q-relevance" class="form-control" min="0", max="7" onchange="saveProcessDraft();" required)
           label(for=source._id+"q-holism")
-            | Holism
+            | Holism 
             span(class="glyphicon glyphicon-info-sign" title="How good would source answer query on its own?")
-          input(type="number" name=source._id+"src-q-subjectRelevance" class="form-control" min="0", max="7" required)
+          input(type="number" name=source._id+"q-holism" class="form-control" min="0", max="7" onchange="saveProcessDraft();" required)
           label(for=source._id+"comment")
             | Comment (optional)
           textarea.form-control(name=source._id+"comment" rows="3" onchange="saveProcessDraft();")

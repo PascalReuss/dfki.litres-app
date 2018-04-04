@@ -70,8 +70,8 @@ let engageSre = function() {
 
 $(document).ready(function(){
     $.get('/api/queries/'+_id).done(function(data) {
-        fillForm(data);
         console.log('Received query-draft (query_Id: '+_id+'):', data);
+        fillForm(data);
         saveQueryDraft();       // make query active
     });
 });

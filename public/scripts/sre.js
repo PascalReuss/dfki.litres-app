@@ -203,7 +203,8 @@ let saveSre = function() {
 
 $(document).ready(function(){
   $.get('/api/sres/'+_id).done(function(data) {
-    fillForm(data);
     console.log('Received sre-draft (sre_id: '+_id+'):', data);
+    fillForm(data);
+    saveSreDraft();
   });
 });
