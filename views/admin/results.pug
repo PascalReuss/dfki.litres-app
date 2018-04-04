@@ -4,26 +4,31 @@ extends ../layout
 block content
   h1 Creating: Result
 
-  form#newQuery-form.well(action="#" onsubmit="event.preventDefault(); saveQuery();")
+  form#newResult-form.well(action="#" onsubmit="event.preventDefault(); saveResult();")
     .form-group
+      label(for="q-researchEffort")
+        | Research Effort 
+        span(class="glyphicon glyphicon-info-sign" title="How difficult / time-consuming was answering the query?")
+      input(type="number" name="q-researchEffort" class="form-control" min="0", max="7" onchange="saveResultDraft();" required)
+      label(for="q-novelty")
+        | Novelty 
+        span(class="glyphicon glyphicon-info-sign" title="How new / uncommon is the topic?")
+      input(type="number" name="q-novelty" class="form-control" min="0", max="7" onchange="saveResultDraft();" required)
+      label(for="q-qor")
+        | Quality of Result 
+        span(class="glyphicon glyphicon-info-sign" title="How satisfying was the final result?")
+      input(type="number" name="q-qor" class="form-control" min="0", max="7" onchange="saveResultDraft();" required)
       input.form-control(type="hidden" name="prev_ptr")
       // ts added upon submission
+      label(for="tldr")
+        | TLDR
+      textarea.form-control(name="tldr" rows="3" onchange="saveResultDraft();" required)
       label(for="descr")
         | Description
-      textarea.form-control(name="descr" rows="12" onchange="saveQueryDraft();" required)
-      label(for="srcs")
-        | Sources important to the query:
-      select.form-control(name="srcs" size="9" onchange="saveQueryDraft();" multiple required)
-        each source in sources
-          option(value=source._id)
-            |"
-            =source.title 
-            |" by 
-            =source.authors
+      textarea.form-control(name="descr" rows="9" onchange="saveResultDraft();" required)
       button.btn.btn-info(type="button" data-toggle="modal" data-target="#addNextQuery-modal" style="margin:1em; float: right;") Open connected Query
-      button.btn.btn-link(type="button" style="margin:1em; float: right;" onclick="engageSre();") Engage respective SRE
     input.btn.btn-success(type="submit")
 
   include addNextQuery-modal
 
-  //- script(src="/scripts/query.js")
+  script(src="/scripts/result.js")
