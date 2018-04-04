@@ -28,8 +28,6 @@ module.exports = function(dataAccess) {
         if (req.query.prev_ptr !== undefined)
             draftDoc['prev_ptr'] = req.query.prev_ptr;
 
-        console.log(draftDoc);
-
         dataAccess.insertDocInto(req.params.stage, draftDoc).done(function(doc) {
             var obj = doc.ops[0];
             return res.redirect('/admin/'+req.params.stage+'/'+obj._id);
@@ -40,12 +38,25 @@ module.exports = function(dataAccess) {
     });
 
     router.get('/:stage/:id', function(req, res) {
-        // TODO: check for if item has status="done", if so then reject
         dataAccess.findAllIn('sources').done(function(sources) {
-            return res.render('admin/'+req.params.stage, {
-                title: 'Admin - '+req.params.stage,
-                sources: sources
-            });
+            if (req.params.stage === 'processes') {     // if process-item, then provide only sources used in previous query instead of all sources
+                dataAccess.findDocIn('processes',req.params.id).done(function(procItem) {
+                    dataAccess.findDocIn('queries', procItem.prev_ptr).done(function(queryItem) {
+                        var filteredSources = sources.filter(function(elem) {
+                            return queryItem.srcs.includes(elem._id.toString());
+                        });
+                        return res.render('admin/'+req.params.stage, {
+                            title: 'Admin - '+req.params.stage,
+                            sources: filteredSources
+                        });        
+                    });
+                });
+            } else {
+                return res.render('admin/'+req.params.stage, {
+                    title: 'Admin - '+req.params.stage,
+                    sources: sources
+                });
+            }
         });
     });
 
