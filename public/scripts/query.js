@@ -56,7 +56,7 @@ let saveQuery = function() {
 
     // note: errors are caught by html-form-warnings ...
     
-    $.post('/api/queries'+_id, newQuery, function() {
+    $.post('/api/queries/'+_id, newQuery, function() {
         toastr.success('Saving new Query!');
     }).done(function(data) {
         window.location = "/admin/processes?prev_ptr="+_id;
@@ -72,6 +72,7 @@ $(document).ready(function(){
     $.get('/api/queries/'+_id).done(function(data) {
         fillForm(data);
         console.log('Received query-draft (query_Id: '+_id+'):', data);
+        saveQueryDraft();       // make query active
     });
 });
   

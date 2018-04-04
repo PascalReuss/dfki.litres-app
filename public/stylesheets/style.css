@@ -3,7 +3,7 @@ body {
   font: 14px "Helvetica Neue","Open Sans",sans-serif;
 }
 
-input+label, textarea+label, select+label {
+input+label, textarea+label, select+label, .panel+label {
   margin-top: 1em;
 }
 

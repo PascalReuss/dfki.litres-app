@@ -16,12 +16,39 @@ block content
                 |] in [
                 =sre.platforms
                 |]
-        each query in queries
-          if query.status == 'active'
-            li
-              | Query: 
-              a(href='admin/queries/'+query._id)
-                =query.descr
+        - var itemNameDict = ['Query', 'Process', 'Result']
+        - var collNameDict = ['queries', 'processes', 'results']
+        each list, idx in [queries, processes, results]
+          each item in list
+            if item.status == 'active'
+              li
+                a(href='admin/'+collNameDict[idx]+'/'+item._id)
+                  =itemNameDict[idx]
+                  |: 
+                  if idx == 0
+                    =item.descr
+                  else if idx == 1
+                    | ProcessDummy
+                  else if idx == 2
+                    | ResultDummy
+        //- each query in queries
+        //-   if query.status == 'active'
+        //-     li
+        //-       | Query: 
+        //-       a(href='admin/queries/'+query._id)
+        //-         =query.descr
+        //- each process in processes
+        //-   if process.status == 'active'
+        //-     li
+        //-       | Process: 
+        //-       a(href='admin/process/'+query._id)
+        //-         =query.descr
+        //- each query in queries
+        //-   if query.status == 'active'
+        //-     li
+        //-       | Query: 
+        //-       a(href='admin/queries/'+query._id)
+        //-         =query.descr
     +accordion-item-info('Draft items (opened refered queries)', 'accordion', false)
       ul.arrow-list
         each query in queries

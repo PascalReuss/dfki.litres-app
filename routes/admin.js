@@ -6,10 +6,16 @@ module.exports = function(dataAccess) {
     router.get('/', function(req, res) {
         dataAccess.findAllIn('sres').done(function(sres) {
             dataAccess.findAllIn('queries').done(function(queries) {
-                return res.render('admin/index', {
-                    title: 'Admin',
-                    sres: sres,
-                    queries: queries
+                dataAccess.findAllIn('processes').done(function(processes) {
+                    dataAccess.findAllIn('results').done(function(results) {
+                        return res.render('admin/index', {
+                            title: 'Admin',
+                            sres: sres,
+                            queries: queries,
+                            processes: processes,
+                            results: results
+                        });
+                    });
                 });
             });
         });
