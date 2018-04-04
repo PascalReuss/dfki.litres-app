@@ -59,7 +59,7 @@ let saveQuery = function() {
     $.post('/api/queries'+_id, newQuery, function() {
         toastr.success('Saving new Query!');
     }).done(function(data) {
-        window.location = "/admin/process?prev_ptr="+_id;
+        window.location = "/admin/processes?prev_ptr="+_id;
     });
 };
 
@@ -71,7 +71,7 @@ let engageSre = function() {
 $(document).ready(function(){
     $.get('/api/queries/'+_id).done(function(data) {
         fillForm(data);
-        console.log('Received query-draft (queriId: '+_id+'):', data);
+        console.log('Received query-draft (query_Id: '+_id+'):', data);
     });
 });
   

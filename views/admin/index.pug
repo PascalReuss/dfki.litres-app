@@ -6,19 +6,33 @@ block content
   +accordion('accordion')
     +accordion-item-primary('Active items', 'accordion', true)
       ul.arrow-list
-        //- li
-        //-   a(href='admin/'activeItem.stage+'/'+activeItem.+_id)
-        //-     | Active
-        //-     =activeItem.stage
-    +accordion-item-info('Draft items', 'accordion', false)
+        each sre in sres
+          if sre.status == 'active'
+            li
+              | SRE: 
+              a(href='admin/sres/'+sre._id)
+                |Searching for [
+                =sre.keywords
+                |] in [
+                =sre.platforms
+                |]
+        each query in queries
+          if query.status == 'active'
+            li
+              | Query: 
+              a(href='admin/queries/'+query._id)
+                =query.descr
+    +accordion-item-info('Draft items (opened refered queries)', 'accordion', false)
       ul.arrow-list
-        //- each query in queriesOnHold
-        //-   li
-        //-     a(href='admin/query'+query.+_id)
-        //-       query.descr
-    +accordion-item-default('Default options', 'accordion', false)
+        each query in queries
+          if query.status == 'draft'
+            li
+              | Query: 
+              a(href='admin/queries/'+query._id)
+                =query.descr
+    +accordion-item-default('Default options (if out of active- and draft-items)', 'accordion', false)
       ul.arrow-list
-        //- li
-        //-   a(href='/admin/sres') Independant SRE
         li
           a(href='/admin/queries') Independant Query
+        li
+          a(href='/admin/sres') Independant SRE

@@ -4,8 +4,14 @@ var router = express.Router();
 module.exports = function(dataAccess) {
 
     router.get('/', function(req, res) {
-        return res.render('admin/index', {
-            title: 'Admin'
+        dataAccess.findAllIn('sres').done(function(sres) {
+            dataAccess.findAllIn('queries').done(function(queries) {
+                return res.render('admin/index', {
+                    title: 'Admin',
+                    sres: sres,
+                    queries: queries
+                });
+            });
         });
     });
 
@@ -15,6 +21,8 @@ module.exports = function(dataAccess) {
         };
         if (req.query.prev_ptr !== undefined)
             draftDoc['prev_ptr'] = req.query.prev_ptr;
+
+        console.log(draftDoc);
 
         dataAccess.insertDocInto(req.params.stage, draftDoc).done(function(doc) {
             var obj = doc.ops[0];

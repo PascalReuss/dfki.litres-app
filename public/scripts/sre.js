@@ -99,19 +99,19 @@ let validateSRE = function(sre) {
  */
 
 let fillForm = function(draft) {
+  let keysSngl = ['prev_ptr'];
+  let keysMulti = ['platforms', 'keywords', 'sources'];
   // fill single-string inputs
-  let keys = ['prev_ptr'];
-  for (i in keys) {
-    let key = keys[i];
+  for (i in keysSngl) {
+    let key = keysSngl[i];
     try {
       let inputAppend = $('input[name="'+key+'"]');
       inputAppend.val(draft[key]);
     } catch(err) {}
   }
   // fill multi-string inputs
-  let keys = ['platforms', 'keywords', 'sources'];
-  for (i in keys) {
-    let key = keys[i];
+  for (i in keysMulti) {
+    let key = keysMulti[i];
     try {
       let inputAppend = $('input[name="'+key+'"]');
       inputAppend.val(arrayOfStringsToString(draft[key]));
@@ -195,15 +195,15 @@ let saveSre = function() {
     $.post('/api/sres/'+_id, newSre, function() {
       toastr.success('Saving new SRE!');
     }).done(function(data) {
-      window.location = "/admin/queries?prev_ptr="+newSre.prev_ptr;
+      window.location = "/admin/queries/"+newSre.prev_ptr;
     });
   }
 };
 
 
 $(document).ready(function(){
-  $.get('/api/drafts/sre').done(function(data) {
+  $.get('/api/sres/'+_id).done(function(data) {
     fillForm(data);
-    console.log('Received sre-draft', data);
+    console.log('Received sre-draft (sre_id: '+_id+'):', data);
   });
 });
