@@ -6,6 +6,8 @@ block content
 
   form#newResult-form.well(action="#" onsubmit="event.preventDefault(); saveResult();")
     .form-group
+      .well-sm#qpLinks
+        // added upon page-rdy
       label(for="q-researchEffort")
         | Research Effort 
         span(class="glyphicon glyphicon-info-sign" title="How difficult / time-consuming was answering the query?")

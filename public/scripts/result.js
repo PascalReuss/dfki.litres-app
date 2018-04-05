@@ -65,9 +65,25 @@ let saveResult = function() {
 
 
 $(document).ready(function(){
-    $.get('/api/results/'+_id).done(function(data) {
-        console.log('Received result-draft:', data);
-        fillForm(data);
+    $.get('/api/results/'+_id).done(function(rItem) {
+        console.log('Received result-draft:', rItem);
+        fillForm(rItem);
+        $.get('/api/processes/'+rItem.prev_ptr).done(function(pItem) {
+            $.get('/api/queries/'+pItem.prev_ptr).done(function(qItem) {
+                $('#qpLinks').append(`
+                    <a target="_blank" href="/api/queries/${qItem._id}">
+                        <button class="btn btn-link" type="button")>
+                            View query-item
+                        </button>
+                    </a>
+                    <a target="_blank" href="/api/processes/${pItem._id}">
+                    <button class="btn btn-link" type="button") style="float:right;">
+                        View process-item
+                    </button>
+                    </a>
+                `);
+            });
+        });
         saveResultDraft();       // make result active
     });
 });
