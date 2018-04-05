@@ -111,9 +111,12 @@ let saveProcess = function() {
 
 
 $(document).ready(function(){
-    $.get('/api/processes/'+_id).done(function(data) {
-        console.log('Received process-draft:', data);
-        fillForm(data);
+    $.get('/api/processes/'+_id).done(function(pItem) {
+        console.log('Received process-draft:', pItem);
+        fillForm(pItem);
+        $.get('/api/queries/'+pItem.prev_ptr).done(function(qItem) {
+            $('#queryDescr').append(qItem.descr);
+        });
         saveProcessDraft();       // make process active
     });
 });
