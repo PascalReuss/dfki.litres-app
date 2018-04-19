@@ -1,0 +1,36 @@
+.table {
+    width: 1%;  /* making table scale to fixed size of items */
+}
+td.th-left {
+    text-align: center;
+    vertical-align: middle !important;
+    transform: rotate(345deg);
+    font-weight: bold;
+}
+.well.item {
+    width: 30em;
+    height: 10em;
+    margin-right: 1em;
+    margin-bottom: 0;
+}
+.well > .glyphicon {
+    float: right;
+    top: -.5em;
+    right: -.5em;
+}
+.well > input {
+    width: 4em;
+}
+.well > p {
+    margin-top: .5em;
+    height: 5.3em;  /* 4 lines */
+    white-space: normal;
+    overflow: auto;
+    text-overflow: ellipsis;
+}
+.well>p:hover {
+    overflow: visible;
+}
+.td {
+    height: 10em;
+}
