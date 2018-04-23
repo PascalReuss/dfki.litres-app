@@ -17,6 +17,8 @@ td.th-left {
     float: right;
     top: -.5em;
     right: -.5em;
+    margin-left: .5em;
+    cursor: pointer;
 }
 .well > input {
     width: 4em;

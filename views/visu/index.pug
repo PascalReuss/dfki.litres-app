@@ -6,21 +6,10 @@ block content
 
   .table-responsive
     table.table
-      //- thead
-      //-   tr
-      //-     each key in tableDisplayKeys
-      //-       th
-      //-         if (key === 'q-subjectRelevance')
-      //-           | Subject Relevance
-      //-         else if (key === 'q-informativeContent')
-      //-           | Informative Content
-      //-         else if (key === 'q-context')
-      //-           | Context
-      //-         else if (key === 'q-illustration')
-      //-           | Illustration
-      //-         else
-      //-           =key
       tbody
+        // -------------
+        // - Queries
+        // ----
         tr
           td.th-left
             | Queries 
@@ -36,6 +25,7 @@ block content
             td
               .well.item(id=item._id style='border-color:'+statusColor+';')
                 span.glyphicon.glyphicon-transfer
+                span.glyphicon.glyphicon-list
                 b
                   | Num. of Sources: 
                 if (item.srcs !== undefined)
@@ -45,57 +35,83 @@ block content
                 p
                   i
                     =item.descr
+        // -------------
+        // - Processes
+        // ----
         tr
           td.th-left
             | Processes
-          each item in processes
-            -var statusColor
-            if (item.status == 'done')
-              -statusColor = 'green'
-            else if (item.status == 'active')
-              -statusColor = 'yellow'
-            else if (item.status == 'draft')
-              -statusColor = 'orange'
-
-            td
-              .well.item(id=item._id style='border-color:'+statusColor+';')
-                span.glyphicon.glyphicon-transfer
-                b
-                  | App. 
-                input(id=item._id+'-q-applicability' type='text' disabled)
-                b
-                  |  Rel. 
-                input(id=item._id+'-q-relevance' type='text' disabled)
-                b
-                  |  Hol. 
-                input(id=item._id+'-q-holism' type='text' disabled)
-                p
-                  i
-                    =item.proposition
+          each q in queries
+            -var item = undefined
+            each p in processes 
+              if (p.prev_ptr == q._id)
+                -item = p
+            if (item !== undefined)
+              // determine border color depending on status of item
+              -var statusColor
+              if (item.status == 'done')
+                -statusColor = 'green'
+              else if (item.status == 'active')
+                -statusColor = 'yellow'
+              else if (item.status == 'draft')
+                -statusColor = 'orange'
+              // fill td with content
+              td
+                .well.item(id=item._id style='border-color:'+statusColor+';')
+                  span.glyphicon.glyphicon-transfer
+                  span.glyphicon.glyphicon-list
+                  b
+                    | App. 
+                  input(id=item._id+'-q-applicability' type='text' disabled)
+                  b
+                    |  Rel. 
+                  input(id=item._id+'-q-relevance' type='text' disabled)
+                  b
+                    |  Hol. 
+                  input(id=item._id+'-q-holism' type='text' disabled)
+                  p
+                    i
+                      =item.proposition
+            else
+              td
+        // -------------
+        // - Results
+        // ----
         tr
           td.th-left
             | Results
-          each item in results
-            -var statusColor
-            if (item.status == 'done')
-              -statusColor = 'green'
-            else if (item.status == 'active')
-              -statusColor = 'yellow'
-            else if (item.status == 'draft')
-              -statusColor = 'orange'
-
-            td
-              .well.item(id=item._id style='border-color:'+statusColor+';')
-                span.glyphicon.glyphicon-transfer
-                b
-                  | Eff. 
-                input(id=item._id+'-q-researchEffort' type='text' disabled)
-                b
-                  |  Nov. 
-                input(id=item._id+'-q-novelty' type='text' disabled)
-                b
-                  |  QoR 
-                input(id=item._id+'-q-qor' type='text' disabled)
-                p
-                  i
-                    =item.tldr
+          each q in queries
+            -var item = undefined
+            each p in processes 
+              if (p.prev_ptr == q._id)
+                each r in results
+                  if(r.prev_ptr == p._id)
+                    -item = r
+            if (item !== undefined)
+              // determine border color depending on status of item
+              -var statusColor
+              if (item.status == 'done')
+                -statusColor = 'green'
+              else if (item.status == 'active')
+                -statusColor = 'yellow'
+              else if (item.status == 'draft')
+                -statusColor = 'orange'
+              // fill td with content
+              td
+                .well.item(id=item._id style='border-color:'+statusColor+';')
+                  span.glyphicon.glyphicon-transfer
+                  span.glyphicon.glyphicon-list
+                  b
+                    | Eff. 
+                  input(id=item._id+'-q-researchEffort' type='text' disabled)
+                  b
+                    |  Nov. 
+                  input(id=item._id+'-q-novelty' type='text' disabled)
+                  b
+                    |  QoR 
+                  input(id=item._id+'-q-qor' type='text' disabled)
+                  p
+                    i
+                      =item.tldr
+            else
+              td
