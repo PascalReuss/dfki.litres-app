@@ -6,15 +6,20 @@ h1 {
     float: left;
     width: 100%;
 }
-
-.well > button.src {
-    width: 10em;
-    height: 3em;
+.well > button {
     float: left;
     margin-right: 1em;
     margin-bottom: 1em;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+.well > button.src {
+    width: 10em;
+    height: 3em;
+}
+.well > button.sre {
+    width: 15em;
+    height: 4em;
 }
 
 .table {
@@ -32,7 +37,7 @@ td.th-left {
     margin-right: 1em;
     margin-bottom: 0;
 }
-.well > .glyphicon {
+.well .glyphicon {
     float: right;
     top: -.5em;
     right: -.5em;

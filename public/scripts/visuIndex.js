@@ -1,3 +1,7 @@
+let showLinking = function(id) {
+    console.log(id);
+};
+
 let fillMetricInputs = function() {
     $.get('/api/processes').done(function(data) {
         data.forEach(function(p) {

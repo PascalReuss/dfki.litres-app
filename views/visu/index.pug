@@ -13,7 +13,7 @@ block content
   h2 Source Retrieval Efforts (SREs):
   .well#sres
     each sre in sres
-      button.src.btn.btn-primary(id=sre._id title='['+sre.keywords+'] in ['+sre.platforms+']')
+      button.sre.btn.btn-primary(id=sre._id title='['+sre.keywords+'] in ['+sre.platforms+']' onmouseover='showLinking("'+sre._id+'");')
         =sre.keywords
 
   h2 Query-, Process- & Result-Items
