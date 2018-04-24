@@ -4,15 +4,25 @@ block content
   link(rel='stylesheet', href='/stylesheets/visu.css')
   h1 Research Overview
 
+  h2 Sources:
+  .well#sources
+    each source in sources
+      button.src.btn.btn-info(id=source._id title='"'+source.title+'" by '+source.authors)
+        =source.title
+
+  h2 Source Retrieval Efforts (SREs):
+  .well#sres
+    each sre in sres
+      button.src.btn.btn-primary(id=sre._id title='['+sre.keywords+'] in ['+sre.platforms+']')
+        =sre.keywords
+
+  h2 Query-, Process- & Result-Items
   .table-responsive
     table.table
       tbody
-        // -------------
-        // - Queries
-        // ----
+
         tr
-          td.th-left
-            | Queries 
+          td.th-left Queries 
           each item in queries
             -var statusColor
             if (item.status == 'done')
@@ -24,8 +34,8 @@ block content
 
             td
               .well.item(id=item._id style='border-color:'+statusColor+';')
-                span.glyphicon.glyphicon-transfer
                 span.glyphicon.glyphicon-list
+                span.glyphicon.glyphicon-transfer
                 b
                   | Num. of Sources: 
                 if (item.srcs !== undefined)
@@ -35,12 +45,9 @@ block content
                 p
                   i
                     =item.descr
-        // -------------
-        // - Processes
-        // ----
+                    
         tr
-          td.th-left
-            | Processes
+          td.th-left Processes
           each q in queries
             -var item = undefined
             each p in processes 
@@ -58,28 +65,22 @@ block content
               // fill td with content
               td
                 .well.item(id=item._id style='border-color:'+statusColor+';')
-                  span.glyphicon.glyphicon-transfer
                   span.glyphicon.glyphicon-list
-                  b
-                    | App. 
+                  span.glyphicon.glyphicon-transfer
+                  b App. 
                   input(id=item._id+'-q-applicability' type='text' disabled)
-                  b
-                    |  Rel. 
+                  b  Rel. 
                   input(id=item._id+'-q-relevance' type='text' disabled)
-                  b
-                    |  Hol. 
+                  b  Hol. 
                   input(id=item._id+'-q-holism' type='text' disabled)
                   p
                     i
                       =item.proposition
             else
               td
-        // -------------
-        // - Results
-        // ----
+              
         tr
-          td.th-left
-            | Results
+          td.th-left Results
           each q in queries
             -var item = undefined
             each p in processes 
@@ -99,16 +100,13 @@ block content
               // fill td with content
               td
                 .well.item(id=item._id style='border-color:'+statusColor+';')
-                  span.glyphicon.glyphicon-transfer
                   span.glyphicon.glyphicon-list
-                  b
-                    | Eff. 
+                  span.glyphicon.glyphicon-transfer
+                  b Eff. 
                   input(id=item._id+'-q-researchEffort' type='text' disabled)
-                  b
-                    |  Nov. 
+                  b  Nov. 
                   input(id=item._id+'-q-novelty' type='text' disabled)
-                  b
-                    |  QoR 
+                  b  QoR 
                   input(id=item._id+'-q-qor' type='text' disabled)
                   p
                     i

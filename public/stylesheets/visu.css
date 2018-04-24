@@ -1,3 +1,22 @@
+h1 {
+    text-align: center;
+}
+
+.well#sources, .well#sres, .table-responsive {
+    float: left;
+    width: 100%;
+}
+
+.well > button.src {
+    width: 10em;
+    height: 3em;
+    float: left;
+    margin-right: 1em;
+    margin-bottom: 1em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .table {
     width: 1%;  /* making table scale to fixed size of items */
 }

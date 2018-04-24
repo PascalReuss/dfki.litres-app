@@ -3,10 +3,8 @@ let fillMetricInputs = function() {
         data.forEach(function(p) {
             let qScoreAttrNames = ['q-applicability', 'q-relevance', 'q-holism'];
             for (let i in qScoreAttrNames){
-                let scoreList = [];
-                
-                
-                let count = 0;
+                let scoreList = [],
+                    count = 0;
                 for (let key in p) {
                     count++;
                     if (p[key].hasOwnProperty(qScoreAttrNames[i]))
