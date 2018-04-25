@@ -46,10 +46,22 @@ let showLinking = function(type, id, enable) {
                         coloring(sre._id, 'sre', 'item', enable);
                 });
             });
+            $.get('api/queries/'+id).done(function(q) {
+                if (q.srcs !== undefined)
+                    q.srcs.forEach(function(srcId) {
+                        coloring(srcId, 'src', 'item', enable);
+                    });
+            });
             callItemsForPrevPtr(id, 'queries');
             callItemsForPrevPtr(id, 'processes');
             break;
         case "process":
+            $.get('api/processes/'+id).done(function(p) {
+                for (key in p) {
+                    if (['_id','prev_ptr','proposition','ts','status'].indexOf(key) < 0)
+                        coloring(key, 'src', 'item', enable);
+                }
+            });
             callItemsForPrevPtr(id, 'queries');
             callItemsForPrevPtr(id, 'results');
             break;

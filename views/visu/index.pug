@@ -20,7 +20,7 @@ block content
         onmouseleave='showLinking("sre","'+sre._id+'", false);')
         =sre.keywords
 
-  h2 Query-, Process- & Result-Items
+  h2 Items (Queries, Processes, Results):
   .table-responsive
     table.table
       tbody
@@ -40,8 +40,8 @@ block content
               .well.item(id=item._id style='border-color:'+statusColor+';'
                 onmouseenter='showLinking("query","'+item._id+'", true);'
                 onmouseleave='showLinking("query","'+item._id+'", false);')
-                span.glyphicon.glyphicon-list
-                span.glyphicon.glyphicon-transfer
+                a(target='_blank' href='/admin/queries/'+item._id)
+                  span.glyphicon.glyphicon-link
                 b
                   | Num. of Sources: 
                 if (item.srcs !== undefined)
@@ -73,8 +73,8 @@ block content
                 .well.item(id=item._id style='border-color:'+statusColor+';'
                   onmouseenter='showLinking("process","'+item._id+'", true);'
                   onmouseleave='showLinking("process","'+item._id+'", false);')
-                  span.glyphicon.glyphicon-list
-                  span.glyphicon.glyphicon-transfer
+                  a(target='_blank' href='/admin/processes/'+item._id)
+                    span.glyphicon.glyphicon-link
                   b App. 
                   input(id=item._id+'-q-applicability' type='text' disabled)
                   b  Rel. 
@@ -110,8 +110,8 @@ block content
                 .well.item(id=item._id style='border-color:'+statusColor+';'
                   onmouseenter='showLinking("result","'+item._id+'", true);'
                   onmouseleave='showLinking("result","'+item._id+'", false);')
-                  span.glyphicon.glyphicon-list
-                  span.glyphicon.glyphicon-transfer
+                  a(target='_blank' href='/admin/results/'+item._id)
+                    span.glyphicon.glyphicon-link
                   b Eff. 
                   input(id=item._id+'-q-researchEffort' type='text' disabled)
                   b  Nov. 

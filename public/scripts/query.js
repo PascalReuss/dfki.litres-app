@@ -65,14 +65,25 @@ let saveQuery = function() {
 
 let engageSre = function() {
     window.location = '/admin/sres?prev_ptr='+_id;
-}
+};
+
+
+
+let disableInputs = function() {
+    $('h1').html('Viewing Query');
+    $('form :input').prop("disabled", true);
+};
 
 
 $(document).ready(function(){
     $.get('/api/queries/'+_id).done(function(data) {
         console.log('Received query-draft (query_Id: '+_id+'):', data);
         fillForm(data);
-        saveQueryDraft();       // make query active
+
+        if (data.status !== 'done')
+            saveQueryDraft();       // make query active
+        else
+            disableInputs();
     });
 });
   

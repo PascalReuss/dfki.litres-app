@@ -110,6 +110,13 @@ let saveProcess = function() {
 };
 
 
+
+let disableInputs = function() {
+    $('h1').html('Viewing Process');
+    $('form :input').prop("disabled", true);
+};
+
+
 $(document).ready(function(){
     $.get('/api/processes/'+_id).done(function(pItem) {
         console.log('Received process-draft:', pItem);
@@ -117,7 +124,11 @@ $(document).ready(function(){
         $.get('/api/queries/'+pItem.prev_ptr).done(function(qItem) {
             $('#queryDescr').append(qItem.descr);
         });
-        saveProcessDraft();       // make process active
+        
+        if (pItem.status !== 'done')
+            saveProcessDraft();       // make process active
+        else
+            disableInputs();
     });
 });
   
