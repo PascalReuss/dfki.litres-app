@@ -60,3 +60,8 @@ td.th-left {
 .td {
     height: 10em;
 }
+
+
+.modal p {
+    padding-left: 2em;
+}
