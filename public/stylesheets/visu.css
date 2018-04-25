@@ -2,6 +2,9 @@ h1 {
     text-align: center;
 }
 
+.well.item {
+    border: .25em solid;
+}
 .well#sources, .well#sres, .table-responsive {
     float: left;
     width: 100%;

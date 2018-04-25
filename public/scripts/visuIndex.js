@@ -1,6 +1,79 @@
-let showLinking = function(id) {
-    console.log(id);
+let showLinking = function(type, id, enable) {
+    let callItemsForPrevPtr = function(id, items) {
+        $.get('/api/'+items).done(function(items) {
+            items.forEach(function(item) {
+                if (item.prev_ptr === id)
+                    coloring(item._id, 'item', 'item', enable);
+            });
+        });
+    };
+    switch(type) {
+        case "src":
+            $.get('/api/sres').done(function(sres) {
+                sres.forEach(function(sre) {
+                    if (sre.sources.indexOf(id) > -1)
+                        coloring(sre._id, 'sre', 'src', enable);
+                });
+            });
+            $.get('/api/queries').done(function(queries) {
+                queries.forEach(function(q) {
+                    if (q.srcs !== undefined && q.srcs.indexOf(id) > -1) {
+                        coloring(q._id, 'item', 'src', enable);      
+                    }
+                });
+            });
+            $.get('/api/processes').done(function(processes) {
+                processes.forEach(function(p) {
+                    for (key in p) {
+                        if (key === id)
+                            coloring(p._id, 'item', 'src', enable);
+                    }
+                });
+            });
+            break;
+        case "sre":
+            $.get('/api/sres/'+id).done(function(sre) {
+                sre.sources.forEach(function(srcId) {
+                    coloring(srcId, 'src', 'sre', enable);
+                });
+                coloring(sre.prev_ptr, 'item', 'sre', enable);
+            });
+            break;
+        case "query":
+            $.get('/api/sres').done(function(sres) {
+                sres.forEach(function(sre) {
+                    if (sre.prev_ptr === id)
+                        coloring(sre._id, 'sre', 'item', enable);
+                });
+            });
+            callItemsForPrevPtr(id, 'queries');
+            callItemsForPrevPtr(id, 'processes');
+            break;
+        case "process":
+            callItemsForPrevPtr(id, 'queries');
+            callItemsForPrevPtr(id, 'results');
+            break;
+        case "result":
+            callItemsForPrevPtr(id, 'queries');
+            break;
+    }
 };
+let coloring = function(id, typeInit, typeTarget, enable) {
+    let colorHighlight = {
+        src: 'orange',
+        sre: '#e5cc4b',
+        item: '#9de278'      // process / query / result
+    };
+    let colorNormal = {
+        src: '#5bc0de',
+        sre: '#337ab7',
+        item: '#f5f5f5'     // process / query / result
+    }
+    if (enable)
+        $('#'+id).css('background-color',colorHighlight[typeTarget]);
+    else
+        $('#'+id).css('background-color',colorNormal[typeInit]);
+}
 
 let fillMetricInputs = function() {
     $.get('/api/processes').done(function(data) {
@@ -30,10 +103,7 @@ let fillMetricInputs = function() {
                             $('#'+p._id+'-'+qScoreAttrNames[i]).val('-');
                         }
                     }
-                }
-
-                // console.log(scoreList);
-                
+                }                
             }
         });
     });
