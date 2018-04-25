@@ -1,0 +1,67 @@
+.well.item {
+    border: .25em solid;
+}
+.well#sources, .well#sres, .table-responsive {
+    float: left;
+    width: 100%;
+}
+.well > button {
+    float: left;
+    margin-right: 1em;
+    margin-bottom: 1em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.well > button.src {
+    width: 10em;
+    height: 3em;
+}
+.well > button.sre {
+    width: 15em;
+    height: 4em;
+}
+
+.table {
+    width: 1%;  /* making table scale to fixed size of items */
+}
+td.th-left {
+    text-align: center;
+    vertical-align: middle !important;
+    transform: rotate(345deg);
+    font-weight: bold;
+}
+.well.item {
+    width: 30em;
+    height: 10em;
+    margin-right: 1em;
+    margin-bottom: 0;
+}
+.well .glyphicon {
+    float: right;
+    top: -.5em;
+    right: -.5em;
+    margin-left: .5em;
+    cursor: pointer;
+}
+.well > input {
+    width: 5em;
+    text-align: center;
+}
+.well > p {
+    margin-top: .5em;
+    height: 5.3em;  /* 4 lines */
+    white-space: normal;
+    overflow: auto;
+    text-overflow: ellipsis;
+}
+.well>p:hover {
+    overflow: visible;
+}
+.td {
+    height: 10em;
+}
+
+
+.modal p {
+    padding-left: 2em;
+}

@@ -1,0 +1,164 @@
+extends ../layout
+
+include ../templates/bootstrap-modal
+
+block content
+  link(rel='stylesheet', href='/stylesheets/visu.css')
+  h1 Research Overview
+
+  h2 Sources:
+  .well#sources
+    each source in sources
+      -var srcTitle = '"'+source.title+'" by '+source.authors
+      button.src.btn.btn-info(id=source._id title=srcTitle
+        type="button" data-toggle="modal" data-target='#'+source._id+'-modal'
+        onmouseenter='showLinking("src","'+source._id+'", true);' 
+        onmouseleave='showLinking("src","'+source._id+'", false);')
+        =source.title
+      +modal(source._id+'-modal', source.title, 'Retrieved: '+source.urldate)
+        each val, key in source
+          if (['_id','title','urldate'].indexOf(key) < 0)
+            h4 
+              =key
+            p
+              =val
+        //- form#newNextQuery-form(action="#" method="post" onsubmit="event.preventDefault(); postConnectedQuery();")
+        //-   label(for="nxt-descr")
+        //-     | Description (sketch)
+        //-   textarea.form-control(name="nxt-descr" rows="12" required)
+        //-   input.btn.btn-success(type="submit" value="Post Query")
+    
+
+
+  h2 Source Retrieval Efforts (SREs):
+  .well#sres
+    each sre in sres
+      button.sre.btn.btn-primary(id=sre._id title='['+sre.keywords+'] in ['+sre.platforms+']'
+        type="button" data-toggle="modal" data-target='#'+sre._id+'-modal'
+        onmouseenter='showLinking("sre","'+sre._id+'", true);' 
+        onmouseleave='showLinking("sre","'+sre._id+'", false);')
+        =sre.keywords
+      +modal(sre._id+'-modal', sre.ts, 'Backlog: '+sre.backlog)
+        h4 Keywords:
+        ul
+          each keyword in sre.keywords
+            li 
+              =keyword
+        h4 Platforms:
+        ul
+          each platform in sre.platforms
+            li 
+              =platform
+
+        //- each val, key in sre
+        //-   if (['_id','keywords','platforms'].indexOf(key) < 0)
+        //-     h4 
+        //-       =key
+        //-     p
+        //-       =val
+
+  h2 Items (Queries, Processes, Results):
+  .table-responsive
+    table.table
+      tbody
+
+        tr
+          td.th-left Queries 
+          each item in queries
+            -var statusColor
+            if (item.status == 'done')
+              -statusColor = 'green'
+            else if (item.status == 'active')
+              -statusColor = 'yellow'
+            else if (item.status == 'draft')
+              -statusColor = 'orange'
+
+            td
+              .well.item(id=item._id style='border-color:'+statusColor+';'
+                onmouseenter='showLinking("query","'+item._id+'", true);'
+                onmouseleave='showLinking("query","'+item._id+'", false);')
+                a(target='_blank' href='/admin/queries/'+item._id)
+                  span.glyphicon.glyphicon-link
+                b
+                  | Num. of Sources: 
+                if (item.srcs !== undefined)
+                  =item.srcs.length
+                else
+                  | 0
+                p
+                  i
+                    =item.descr
+                    
+        tr
+          td.th-left Processes
+          each q in queries
+            -var item = undefined
+            each p in processes 
+              if (p.prev_ptr == q._id)
+                -item = p
+            if (item !== undefined)
+              // determine border color depending on status of item
+              -var statusColor
+              if (item.status == 'done')
+                -statusColor = 'green'
+              else if (item.status == 'active')
+                -statusColor = 'yellow'
+              else if (item.status == 'draft')
+                -statusColor = 'orange'
+              // fill td with content
+              td
+                .well.item(id=item._id style='border-color:'+statusColor+';'
+                  onmouseenter='showLinking("process","'+item._id+'", true);'
+                  onmouseleave='showLinking("process","'+item._id+'", false);')
+                  a(target='_blank' href='/admin/processes/'+item._id)
+                    span.glyphicon.glyphicon-link
+                  b App. 
+                  input(id=item._id+'-q-applicability' type='text' disabled)
+                  b  Rel. 
+                  input(id=item._id+'-q-relevance' type='text' disabled)
+                  b  Hol. 
+                  input(id=item._id+'-q-holism' type='text' disabled)
+                  p
+                    i
+                      =item.proposition
+            else
+              td
+              
+        tr
+          td.th-left Results
+          each q in queries
+            -var item = undefined
+            each p in processes 
+              if (p.prev_ptr == q._id)
+                each r in results
+                  if(r.prev_ptr == p._id)
+                    -item = r
+            if (item !== undefined)
+              // determine border color depending on status of item
+              -var statusColor
+              if (item.status == 'done')
+                -statusColor = 'green'
+              else if (item.status == 'active')
+                -statusColor = 'yellow'
+              else if (item.status == 'draft')
+                -statusColor = 'orange'
+              // fill td with content
+              td
+                .well.item(id=item._id style='border-color:'+statusColor+';'
+                  onmouseenter='showLinking("result","'+item._id+'", true);'
+                  onmouseleave='showLinking("result","'+item._id+'", false);')
+                  a(target='_blank' href='/admin/results/'+item._id)
+                    span.glyphicon.glyphicon-link
+                  b Eff. 
+                  input(id=item._id+'-q-researchEffort' type='text' disabled)
+                  b  Nov. 
+                  input(id=item._id+'-q-novelty' type='text' disabled)
+                  b  QoR 
+                  input(id=item._id+'-q-qor' type='text' disabled)
+                  p
+                    i
+                      =item.tldr
+            else
+              td
+
+  script(src="/scripts/visuIndex.js")

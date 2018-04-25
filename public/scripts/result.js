@@ -64,6 +64,13 @@ let saveResult = function() {
 };
 
 
+
+let disableInputs = function() {
+    $('h1').html('Viewing Result');
+    $('form :input').prop("disabled", true);
+};
+
+
 $(document).ready(function(){
     $.get('/api/results/'+_id).done(function(rItem) {
         console.log('Received result-draft:', rItem);
@@ -71,12 +78,12 @@ $(document).ready(function(){
         $.get('/api/processes/'+rItem.prev_ptr).done(function(pItem) {
             $.get('/api/queries/'+pItem.prev_ptr).done(function(qItem) {
                 $('#qpLinks').append(`
-                    <a target="_blank" href="/api/queries/${qItem._id}">
+                    <a target="_blank" href="/admin/queries/${qItem._id}">
                         <button class="btn btn-link" type="button")>
                             View query-item
                         </button>
                     </a>
-                    <a target="_blank" href="/api/processes/${pItem._id}">
+                    <a target="_blank" href="/admin/processes/${pItem._id}">
                     <button class="btn btn-link" type="button") style="float:right;">
                         View process-item
                     </button>
@@ -84,7 +91,11 @@ $(document).ready(function(){
                 `);
             });
         });
-        saveResultDraft();       // make result active
+
+        if (rItem.status !== 'done')
+            saveResultDraft();       // make result active
+        else
+            disableInputs();
     });
 });
   

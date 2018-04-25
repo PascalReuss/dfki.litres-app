@@ -31,12 +31,16 @@ module.exports = function(config) {
 
 	this.findAllIn = function(collection) {
 		return new Promise(function(fulfill, reject) {
-			db.collection(collection).find({}).toArray(function(err, doc) {
-				if (err)
-					reject(err);
-				else
-					fulfill(doc);
-			});
+			try {	// nodemon crashes here sometimes (...?)
+				db.collection(collection).find({}).toArray(function(err, doc) {
+					if (err)
+						reject(err);
+					else
+						fulfill(doc);
+				});
+			} catch(err) {
+				console.log(err);
+			}
 		});
 	};
 

@@ -3,6 +3,10 @@ body {
   font: 14px "Helvetica Neue","Open Sans",sans-serif;
 }
 
+h1 {
+  text-align: center;
+}
+
 input+label, textarea+label, select+label, .panel+label {
   margin-top: 1em;
 }
