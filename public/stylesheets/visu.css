@@ -36,7 +36,7 @@ td.th-left {
     margin-right: 1em;
     margin-bottom: 0;
 }
-.well .glyphicon {
+.well a > .glyphicon {
     float: right;
     top: -.5em;
     right: -.5em;
@@ -61,7 +61,6 @@ td.th-left {
     height: 10em;
 }
 
-
-.modal p {
-    padding-left: 2em;
-}
+/* dt > .glyphicons {
+    float: left;
+} */
