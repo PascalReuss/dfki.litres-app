@@ -1,12 +1,14 @@
 var express = require('express');
 var router  = express.Router();
 
-module.exports = function() {
+module.exports = function(dataAccess) {
 
   router.get('/', function(req, res) {
-    res.render('index', {
-      _title_: 'Boilerplate Bootstrap-NodeJS-Express App',
-      users: []
+    dataAccess.findAllIn('info').done(function(doc) {
+      res.render('index', {
+        _title_: 'Boilerplate Bootstrap-NodeJS-Express App',
+        info: doc[0]
+      });
     });
   });
   

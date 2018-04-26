@@ -1,4 +1,30 @@
 extends layout
 
 block content
-  h1 Hello and Welcome to this World
+  h1 DFKI - CBR - Literature Research
+
+  h2 Status
+  .well
+    dl.row
+      each val, key in info
+        if (key === 'latest-Update')
+          dt.col-sm-3 
+            | Latest Update
+          dd.col-sm-9
+            =new Date(val)
+        else if (key !== 'research-Question')
+          dt.col-sm-3 
+            =key[0].toUpperCase()+key.substring(1)
+          dd.col-sm-9
+            =val
+          
+  h2 Research Question
+  .well
+    =info['research-Question']
+
+  h2 Links
+  .well.link-well(onclick='window.location = "/visualization";')
+    | Visualization: Research Overview
+  .well.link-well(onclick='window.location = "/visualization/sources";')
+    | Visualization: Sources
+  

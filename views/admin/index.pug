@@ -4,6 +4,15 @@ include ../templates/bootstrap-accordion
 
 block content
   +accordion('accordion')
+    +accordion-item-default('Literature Research Info', 'accordion', false)
+      form(action="#" onsubmit="event.preventDefault();")
+        .form-group
+          label(for="researcher") Researcher
+          input.form-control(type="text" name="researcher" onchange="updateInfo();" required)
+          label(for="supervisor") Supervisor
+          input.form-control(type="text" name="supervisor" onchange="updateInfo();" required)
+          label(for="research-Question") Research Question
+          textarea.form-control(name="research-Question" rows="7" onchange="updateInfo();" required)
     +accordion-item-primary('Active items', 'accordion', true)
       ul.arrow-list
         each sre in sres
@@ -49,3 +58,5 @@ block content
           a(href='/admin/queries') Independant Query
         li
           a(href='/admin/sres') Independant SRE
+
+  script(src="/scripts/adminIndex.js")
