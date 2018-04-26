@@ -79,19 +79,23 @@ block content
         div(id="quality-tab" class="tab-pane fade form-group well")
           label(for="src-q-subjectRelevance")
             | Subject Relevance 
-            span(class="glyphicon glyphicon-info-sign" title="How generally useful is the source expected to be?\n(This takes into account how relevant the source is expected to become concerning queries on the literature research subject.)")
+            span(class="glyphicon glyphicon-info-sign" title="How generally - subjectively - useful is the source expected to be (Topic, Research-Question)?")
+            span(class="glyphicon glyphicon-question-sign" title="Takes into account how relevant the source is expected to become concerning queries on the literature research subject.")
           input(type="number" name="src-q-subjectRelevance" class="form-control" min="0", max="7" onchange="saveSreDraft();" required)
           label(for="src-q-informativeContent")
             | Informative Content 
-            span(class="glyphicon glyphicon-info-sign" title="How much formal information is actually present in the source?")
+            span(class="glyphicon glyphicon-info-sign" title="How much formal information is actually present in the source (Descriptions, Autonomy)?")
+            span(class="glyphicon glyphicon-question-sign" title="Describes the amount of formal descriptions, motivations and generally coherent information present in the source. Thus a) the more descriptive a source the more formal information it holds, b) more referencing equals less information, c) more precise distinction (generally) indicates less information content.")
           input(type="number" name="src-q-informativeContent" class="form-control" min="0", max="7" onchange="saveSreDraft();" required)
           label(for="src-q-context")
             | Context 
-            span(class="glyphicon glyphicon-info-sign" title="How precisely does the source motivate its findings and respective context?\n(This mainly focuses on cross references, where many references indicate a holistically covered research. The more concise a source appears, the more in-depth this source can be explored without running into blind ends not mentioned / thought of by the author(s).)")
+            span(class="glyphicon glyphicon-info-sign" title="How precisely does the source motivate its findings and respective context (References, Topology)?")
+            span(class="glyphicon glyphicon-question-sign" title="This mainly focuses on cross references, where many references indicate a holistically covered research. The more concise a source appears, the more in-depth this source can be explored without running into blind ends not mentioned / thought of by the author(s).")
           input(type="number" name="src-q-context" class="form-control" min="0", max="7" onchange="saveSreDraft();" required)
           label(for="src-q-illustration")
             | Illustration 
-            span(class="glyphicon glyphicon-info-sign" title="How well is information processed to make it easy to understand / put into context?\n(This (compared to conciseness) mainly focuses on the way the information is being presented concerning utility and understandability. The more illustration a source uses to explains its motivation, the easier the source can be used by non-domain-experts.")
+            span(class="glyphicon glyphicon-info-sign" title="How well is information processed to make it easy to understand / put into context (Figures, Structures)?")
+            span(class="glyphicon glyphicon-question-sign" title="This - compared to conciseness - mainly focuses on the way the information is being presented concerning utility and understandability. The more illustration (figures, visualization, structures) a source uses to explains its motivation, the easier the source can be used by non-domain-experts.")
           input(type="number" name="src-q-illustration" class="form-control" min="0", max="7" onchange="saveSreDraft();" required)
 
         div(id="submit-tab" class="tab-pane fade form-group well")

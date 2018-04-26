@@ -11,14 +11,17 @@ block content
       label(for="q-researchEffort")
         | Research Effort 
         span(class="glyphicon glyphicon-info-sign" title="How difficult / time-consuming was answering the query?")
+        span(class="glyphicon glyphicon-question-sign" title="This should reflect the difficulty level and/or efficiency of the query.")
       input(type="number" name="q-researchEffort" class="form-control" min="0", max="7" onchange="saveResultDraft();" required)
       label(for="q-novelty")
         | Novelty 
-        span(class="glyphicon glyphicon-info-sign" title="How new / uncommon is the topic?")
+        span(class="glyphicon glyphicon-info-sign" title="Is it a rather new / uncommon topic?")
+        span(class="glyphicon glyphicon-question-sign" title="A high score indicates a new, previously not quite researched subject, which is answered only by composing insight from multiple connected fields of study. As such, a novel result relies more on source (re-)interpretation as it does on providing precompiled answers by precise sources with matching research questions.")
       input(type="number" name="q-novelty" class="form-control" min="0", max="7" onchange="saveResultDraft();" required)
       label(for="q-qor")
         | Quality of Result 
-        span(class="glyphicon glyphicon-info-sign" title="How satisfying was the final result?")
+        span(class="glyphicon glyphicon-info-sign" title="How satisfying is the result?")
+        span(class="glyphicon glyphicon-question-sign" title="Subjectively speaking, this scores whether or not the query was processed to an extent that answers the underlying question in a satisfying and meaningful way.")
       input(type="number" name="q-qor" class="form-control" min="0", max="7" onchange="saveResultDraft();" required)
       input.form-control(type="hidden" name="prev_ptr")
       // ts added upon submission

@@ -21,15 +21,18 @@ block content
             input.form-control(type="hidden" name=source._id+"id" value=source._id)
             label(for=source._id+"q-applicability")
               | Applicability 
-              span(class="glyphicon glyphicon-info-sign" title="How precisely did source apply to given query?")
+              span(class="glyphicon glyphicon-info-sign" title="How well does the source apply to the given query (Topic, Aspect)?")
+              span(class="glyphicon glyphicon-question-sign" title="This is connected to the “Subject Relevance” score of a source, but applied to the respective query instead.")
             input(type="number" name=source._id+"q-applicability" class="form-control" min="0", max="7" onchange="saveProcessDraft();" required)
             label(for=source._id+"q-relevance")
               | Relevance 
-              span(class="glyphicon glyphicon-info-sign" title="How relevant was the source to the result of the processing (as part of the complete corpus of (re)sources)?\nThis does not mean how much of the final answer was due to this specific source, but rather how much of the source could be used and how much impact the usage had on the resulting query-processing.")
+              span(class="glyphicon glyphicon-info-sign" title="How important is the insight retrieved from the source to answering the query (Preciseness, Specialized)?")
+              span(class="glyphicon glyphicon-question-sign" title="This partly refers to how much of the final answer was due to this specific source, but not how much of the source could be used (which partly results from the holism score). Relevance focuses on the speciality of insight and how groundbreaking a source appears to be.")
             input(type="number" name=source._id+"q-relevance" class="form-control" min="0", max="7" onchange="saveProcessDraft();" required)
             label(for=source._id+"q-holism")
               | Holism 
-              span(class="glyphicon glyphicon-info-sign" title="How good would source answer query on its own?")
+              span(class="glyphicon glyphicon-info-sign" title="How good would the source answer the query on its own (Generality, Spanning)?")
+              span(class="glyphicon glyphicon-question-sign" title="A general metric for how extensive a source tackles the questions posed by the given query. Thus, a) a relevant, ‘high-quality’ source performs better, b) a more ubiquitous source is expected to score higher. This is connected to the “Informative Content” score of a source, but here applied to the answering of a query.")
             input(type="number" name=source._id+"q-holism" class="form-control" min="0", max="7" onchange="saveProcessDraft();" required)
             label(for=source._id+"comment")
               | Comment (optional)

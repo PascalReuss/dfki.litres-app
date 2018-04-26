@@ -201,10 +201,21 @@ let saveSre = function() {
 };
 
 
+
+let disableInputs = function() {
+  $('h1').html('Viewing Source Retrieval Effort (SRE)');
+  $('form :input').prop("disabled", true);
+};
+
+
 $(document).ready(function(){
   $.get('/api/sres/'+_id).done(function(data) {
     console.log('Received sre-draft (sre_id: '+_id+'):', data);
     fillForm(data);
-    saveSreDraft();
+
+    if (data.status !== 'done')
+      saveSreDraft();       // make query active
+    else
+        disableInputs();
   });
 });

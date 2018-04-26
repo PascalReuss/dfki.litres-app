@@ -23,3 +23,12 @@ textarea+input {
 .arrow-list li:before {
   content: "\00BB \0020";
 }
+
+.link-well {
+  background: turquoise; 
+  cursor: pointer;
+  text-align-last: center;
+  font-weight: bold;
+  padding: .5em;
+  margin: .5em 1em;
+}
