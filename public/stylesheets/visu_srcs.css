@@ -1,0 +1,22 @@
+body {
+    height: 700px;
+}
+.table100, .row, .container, .table-responsive, .table-bordered  {
+    height: 100%;
+}
+
+.td-q {
+    width: 4em;
+    text-align:center;
+    vertical-align:middle !important;
+    color:white;
+}
+.td-md {
+    max-width: 10em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.td-lg {
+    max-width: 15em;
+}
