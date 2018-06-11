@@ -29,14 +29,20 @@ module.exports = function(dataAccess) {
 		});
 	});
 
+	var updateTsInInfo = function(litResId) {
+		dataAccess.findDocIn('info',litResId).done(function(newInfo) {
+			newInfo['latest-Update'] = Date.now();
+			dataAccess.replaceDocIn('info', newInfo['_id'], newInfo);
+		});
+	};
+	
 	router.post('/:stage', function(req, res, next) {
 		dataAccess.insertDocInto(req.params.stage, req.body).done(function() {
-			// update ts in info
-			dataAccess.findAllIn('info').done(function(doc) {
-				var newInfo = doc[0];
-				newInfo['latest-Update'] = Date.now();
-				dataAccess.replaceDocIn('info', newInfo['_id'], newInfo);
-			});
+			if (req.params.stage === 'sources') {
+				updateTsInInfo(req.body['litRes'][0]);
+			} else if (req.params.stage !== 'info') {
+				updateTsInInfo(req.body['litRes']);
+			}
 			return res.send({
 				msg: 'Inserted into '+req.params.stage+' successfully.',
 				source: req.body
@@ -46,12 +52,9 @@ module.exports = function(dataAccess) {
 
 	router.post('/:stage/:id', function (req, res, next) {
 		dataAccess.replaceDocIn(req.params.stage, req.params.id, req.body).done(function() {
-			// update ts in info
-			dataAccess.findAllIn('info').done(function(doc) {
-				var newInfo = doc[0];
-				newInfo['latest-Update'] = Date.now();
-				dataAccess.replaceDocIn('info', newInfo['_id'], newInfo);
-			});
+			if (req.params.stage !== 'info') {
+				updateTsInInfo(req.body['litRes']);
+			}
 			return res.send({
 				msg: 'Updated ['+req.params.stage+']-doc of id ['+req.params.id+'].',
 				doc: req.body

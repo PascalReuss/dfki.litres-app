@@ -1,9 +1,11 @@
 extends ../layout
 
+include ../templates/bootstrap-modal
+
 block content
   h1 Open Literature Researches
 
-  ul
+  ul(style='margin-top: 3em;')
     each litRes in litReses
       li
         h4
@@ -17,3 +19,19 @@ block content
             a(href='/visualization/'+litRes._id) Go to 'Research Overview'
           li
             a(href='/visualization/'+litRes._id+'/sources') Go to 'Collected Sources'
+
+  p(style='padding: 2em;')
+    button.btn.btn-info(type="button" data-toggle="modal" data-target='#startNewLitRes-modal')
+      | Start new Literature Research
+
+  +modal('startNewLitRes-modal', 'Engaging new Literature Research')
+    form#newLitRes-form(action="#" method="post" onsubmit="event.preventDefault(); postNewLitRes();")
+      .form-group
+        label(for='title') Title
+        input.form-control(name='title' type='text' required)
+        label(for="research-Question") Research Question
+        textarea.form-control(name="research-Question" rows="12" required)
+        center(style="margin-top:2em;")
+          input.btn.btn-success(type="submit" value="Engage Literature Research")
+
+  script(src="/scripts/adminIndex.js")

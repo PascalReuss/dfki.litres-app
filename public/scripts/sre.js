@@ -80,7 +80,7 @@ let compileSRE = function() {
   // add ts
   let now = new Date();
   sre['ts'] = now.toISOString();
-  sre['litRes'] = [_litRes];
+  sre['litRes'] = _litRes;
 
   return sre;
 };
