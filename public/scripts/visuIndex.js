@@ -1,3 +1,5 @@
+let _litRes = window.location.pathname.split('/')[2];
+
 let showLinking = function(type, id, enable) {
     let callItemsForPrevPtr = function(id, items) {
         $.get('/api/'+items).done(function(items) {
@@ -11,8 +13,9 @@ let showLinking = function(type, id, enable) {
         case "src":
             $.get('/api/sres').done(function(sres) {
                 sres.forEach(function(sre) {
-                    if (sre.sources.indexOf(id) > -1)
-                        coloring(sre._id, 'sre', 'src', enable);
+                    if (sre.sources !== undefined)  // sre possibly without sources
+                        if (sre.sources.indexOf(id) > -1)
+                            coloring(sre._id, 'sre', 'src', enable);
                 });
             });
             $.get('/api/queries').done(function(queries) {
@@ -33,9 +36,10 @@ let showLinking = function(type, id, enable) {
             break;
         case "sre":
             $.get('/api/sres/'+id).done(function(sre) {
-                sre.sources.forEach(function(srcId) {
-                    coloring(srcId, 'src', 'sre', enable);
-                });
+                if (sre.sources !== undefined)  // sre possibly without sources
+                    sre.sources.forEach(function(srcId) {
+                        coloring(srcId, 'src', 'sre', enable);
+                    });
                 coloring(sre.prev_ptr, 'item', 'sre', enable);
             });
             break;
@@ -46,7 +50,7 @@ let showLinking = function(type, id, enable) {
                         coloring(sre._id, 'sre', 'item', enable);
                 });
             });
-            $.get('api/queries/'+id).done(function(q) {
+            $.get('/api/queries/'+id).done(function(q) {
                 if (q.srcs !== undefined)
                     q.srcs.forEach(function(srcId) {
                         coloring(srcId, 'src', 'item', enable);
@@ -56,7 +60,7 @@ let showLinking = function(type, id, enable) {
             callItemsForPrevPtr(id, 'processes');
             break;
         case "process":
-            $.get('api/processes/'+id).done(function(p) {
+            $.get('/api/processes/'+id).done(function(p) {
                 for (key in p) {
                     if (['_id','prev_ptr','proposition','ts','status'].indexOf(key) < 0)
                         coloring(key, 'src', 'item', enable);
@@ -90,41 +94,45 @@ let coloring = function(id, typeInit, typeTarget, enable) {
 let fillMetricInputs = function() {
     $.get('/api/processes').done(function(data) {
         data.forEach(function(p) {
-            let qScoreAttrNames = ['q-applicability', 'q-relevance', 'q-holism'];
-            for (let i in qScoreAttrNames){
-                let scoreList = [],
-                    count = 0;
-                for (let key in p) {
-                    count++;
-                    if (p[key].hasOwnProperty(qScoreAttrNames[i]))
-                        scoreList.push(parseInt(p[key][qScoreAttrNames[i]]));
-                    if (count === Object.size(p)) {
-                        if (scoreList.length > 0) {
-                            let average = function(data) {
-                                let sum = data.reduce(function(sum, value) {
-                                  return sum + value;
-                                }, 0);
-                                return sum / data.length;
+            if (p.litRes === _litRes) {
+                let qScoreAttrNames = ['q-applicability', 'q-relevance', 'q-holism'];
+                for (let i in qScoreAttrNames){
+                    let scoreList = [],
+                        count = 0;
+                    for (let key in p) {
+                        count++;
+                        if (p[key].hasOwnProperty(qScoreAttrNames[i]))
+                            scoreList.push(parseInt(p[key][qScoreAttrNames[i]]));
+                        if (count === Object.size(p)) {
+                            if (scoreList.length > 0) {
+                                let average = function(data) {
+                                    let sum = data.reduce(function(sum, value) {
+                                      return sum + value;
+                                    }, 0);
+                                    return sum / data.length;
+                                }
+                                let avg = average(scoreList).toFixed(1);
+                                // let std = Math.sqrt(average(scoreList.map(function(num) {
+                                //     return num - avg;
+                                // }))).toFixed(2);
+                                $('#'+p._id+'-'+qScoreAttrNames[i]).val('~'+avg);
+                            } else {
+                                $('#'+p._id+'-'+qScoreAttrNames[i]).val('-');
                             }
-                            let avg = average(scoreList).toFixed(1);
-                            // let std = Math.sqrt(average(scoreList.map(function(num) {
-                            //     return num - avg;
-                            // }))).toFixed(2);
-                            $('#'+p._id+'-'+qScoreAttrNames[i]).val('~'+avg);
-                        } else {
-                            $('#'+p._id+'-'+qScoreAttrNames[i]).val('-');
                         }
-                    }
-                }                
+                    }                
+                }
             }
         });
     });
     $.get('/api/results').done(function(data) {
         data.forEach(function(r) {
-            let qScoreAttrNames = ['q-researchEffort', 'q-novelty', 'q-qor'];
-            qScoreAttrNames.forEach(function(scoreAttrName){
-                $('#'+r._id+'-'+scoreAttrName).val(r[scoreAttrName]);
-            });
+            if (r.litRes === _litRes) {
+                let qScoreAttrNames = ['q-researchEffort', 'q-novelty', 'q-qor'];
+                qScoreAttrNames.forEach(function(scoreAttrName){
+                    $('#'+r._id+'-'+scoreAttrName).val(r[scoreAttrName]);
+                });
+            }
         });
     });
 };

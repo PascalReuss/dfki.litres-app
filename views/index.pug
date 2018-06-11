@@ -30,7 +30,7 @@ block content
         .well
           =litRes['research-Question']
         h4 Links to result visualizations
-        .well.link-well(onclick='window.location = "/visualization/sources";')
+        .well.link-well(onclick='window.location = "/visualization/'+litRes._id+'/sources";')
           | Sources-Catalogue
-        .well.link-well(onclick='window.location = "/visualization";')
+        .well.link-well(onclick='window.location = "/visualization/'+litRes._id+'";')
           | Progress Overview
