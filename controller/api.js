@@ -51,8 +51,10 @@ module.exports = function(dataAccess) {
 	});
 
 	router.post('/:stage/:id', function (req, res, next) {
+		console.log(req.params.id);
+		console.log(req.body);
 		dataAccess.replaceDocIn(req.params.stage, req.params.id, req.body).done(function() {
-			if (req.params.stage !== 'info') {
+			if (req.params.stage !== 'info' && req.params.stage !== 'sources') {
 				updateTsInInfo(req.body['litRes']);
 			}
 			return res.send({

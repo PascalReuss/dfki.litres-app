@@ -23,6 +23,18 @@ let fillForm = function(info) {
     });
 };
 
+let importSrc = function(srcId) {
+    let srcEndpoint = '/api/sources/'+srcId;
+    $.get(srcEndpoint).done(function(src) {
+        let updatedSrc = src;
+        updatedSrc['litRes'] = src['litRes'].push(_id);
+        console.log(updatedSrc, srcEndpoint);
+        // $.post(srcEndpoint, updatedSrc).done(function(data) {
+        //     console.log(data);
+        // });
+    });
+};
+
 $(document).ready(function(){
     $.get('/api/info/'+_id).done(function(info) {
         fillForm(info);

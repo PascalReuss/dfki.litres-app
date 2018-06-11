@@ -1,9 +1,11 @@
 extends ../layout
 
 include ../templates/bootstrap-accordion
+include ../templates/bootstrap-modal
 
 block content
   h1 WIP Literature Research
+
   +accordion('accordion')
     +accordion-item-default('Literature Research Info', 'accordion', false)
       form(action="#" onsubmit="event.preventDefault();")
@@ -55,11 +57,33 @@ block content
               | Open Query: 
               a(href='/admin/'+litRes+'/queries/'+query._id)
                 =query.descr
-    +accordion-item-default('Default options (if out of active- and draft-items)', 'accordion', false)
+    +accordion-item-default('Default options', 'accordion', false)
+      .well 
+        span.glyphicon.glyphicon-warning-sign 
+        |  It is always recommended to proceed with active- and draft-items as long as feasable 
+        span.glyphicon.glyphicon-warning-sign
+      p If out of active- and draft-items, possibly continue by one of these:
       ul.arrow-list
         li
           a(href='/admin/'+litRes+'/queries') Independant Query
         li
           a(href='/admin/'+litRes+'/sres') Independant SRE
+      p Other misc. actions include:
+      ul.arrow-list
+        li 
+          a(data-toggle="modal" href="#importSources-modal") Import sources
+  
+  +modal('importSources-modal','Import sources from previous Literature Researches into this one')
+    dl.row
+      each src in sources
+        dt.col-sm-2
+          if (src.litRes.includes(litRes))
+            button.btn.btn-success(id=src._id type="button" style="position:fixed;" onclick="importSrc('"+src._id+"');" disabled) Import
+          else
+            button.btn.btn-success(id=src._id type="button" style="position:fixed;" onclick="importSrc('"+src._id+"');") Import
+        dd.col-sm-10(style="height:2.5em; overflow:hidden; white-space: nowrap;")
+          | "
+          a(href='/api/sources/'+src._id, target='_blank') #{src.title}
+          |"
 
   script(src="/scripts/adminPanel.js")
