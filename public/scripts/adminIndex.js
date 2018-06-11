@@ -2,7 +2,7 @@ let _id = '5ae1a3553eac40cd73e09bcc';
 
 let updateInfo = function() {
     let info = {},
-        keys = ['researcher','supervisor','research-Question'];
+        keys = ['researcher','supervisor','title','research-Question'];
     keys.forEach(function(key, i) {
         info[key] = $('form :input[name='+key+']').val();
         if (i === keys.length - 1) {

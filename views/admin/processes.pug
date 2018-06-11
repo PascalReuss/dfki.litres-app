@@ -15,7 +15,7 @@ block content
         // added upon page-rdy
       +accordion('accordion')
         each source in sources
-          +accordion-item-default('"'+source.title+'" by '+source.authors[0]+' '+(source.authors[1]?'et al.':''), 'accordion')
+          +accordion-item-default('"'+source.title+'"'+(source.authors !== undefined ? ' by '+source.authors[0]+' '+(source.authors[1]?'et al.':'') : ''), 'accordion')
             a(target="_blank" href="/api/sources/"+source._id style="float: right;")
               | View source
             input.form-control(type="hidden" name=source._id+"id" value=source._id)

@@ -11,6 +11,8 @@ block content
           input.form-control(type="text" name="researcher" onchange="updateInfo();" required)
           label(for="supervisor") Supervisor
           input.form-control(type="text" name="supervisor" onchange="updateInfo();" required)
+          label(for="supervisor") Title
+          input.form-control(type="text" name="title" onchange="updateInfo();" required)
           label(for="research-Question") Research Question
           textarea.form-control(name="research-Question" rows="7" onchange="updateInfo();" required)
     +accordion-item-primary('Active items', 'accordion', true)

@@ -3,6 +3,7 @@ var router = express.Router();
 
 module.exports = function(dataAccess) {
 
+    // router.get('/:litRes/', function(req, res) {
     router.get('/', function(req, res) {
         dataAccess.findAllIn('sres').done(function(sres) {
             dataAccess.findAllIn('queries').done(function(queries) {
@@ -21,6 +22,7 @@ module.exports = function(dataAccess) {
         });
     });
 
+    // router.get('/:litRes/:stage', function(req, res) {
     router.get('/:stage', function(req, res) {
         var draftDoc = {
             'status': 'draft'
@@ -37,6 +39,7 @@ module.exports = function(dataAccess) {
         });
     });
 
+    // router.get('/:litRes/:stage/:id', function(req, res) {
     router.get('/:stage/:id', function(req, res) {
         dataAccess.findAllIn('sources').done(function(sources) {
             if (req.params.stage === 'processes') {     // if process-item, then provide only sources used in previous query instead of all sources
@@ -45,6 +48,7 @@ module.exports = function(dataAccess) {
                         var filteredSources = sources.filter(function(elem) {
                             return queryItem.srcs.includes(elem._id.toString());
                         });
+                        console.log(filteredSources);
                         return res.render('admin/'+req.params.stage, {
                             title: 'Admin - '+req.params.stage,
                             sources: filteredSources
