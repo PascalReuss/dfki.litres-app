@@ -21,7 +21,7 @@ block content
           if sre.status == 'active'
             li
               | SRE: 
-              a(href='admin/sres/'+sre._id)
+              a(href='/admin/'+litRes+'/sres/'+sre._id)
                 |Searching for [
                 =sre.keywords
                 |] in [
@@ -33,7 +33,7 @@ block content
           each item in list
             if item.status == 'active'
               li
-                a(href='admin/'+collNameDict[idx]+'/'+item._id)
+                a(href='/admin/'+litRes+'/'+collNameDict[idx]+'/'+item._id)
                   =itemNameDict[idx] 
                   if idx == 0
                     | 
@@ -52,13 +52,13 @@ block content
           if query.status == 'draft'
             li
               | Open Query: 
-              a(href='admin/queries/'+query._id)
+              a(href='/admin/'+litRes+'/queries/'+query._id)
                 =query.descr
     +accordion-item-default('Default options (if out of active- and draft-items)', 'accordion', false)
       ul.arrow-list
         li
-          a(href='/admin/queries') Independant Query
+          a(href='/admin/'+litRes+'/queries') Independant Query
         li
-          a(href='/admin/sres') Independant SRE
+          a(href='/admin/'+litRes+'/sres') Independant SRE
 
   script(src="/scripts/adminIndex.js")

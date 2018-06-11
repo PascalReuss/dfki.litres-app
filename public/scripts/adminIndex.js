@@ -1,4 +1,4 @@
-let _id = '5ae1a3553eac40cd73e09bcc';
+let _id = window.location.pathname.split('/')[2];
 
 let updateInfo = function() {
     let info = {},
@@ -24,7 +24,7 @@ let fillForm = function(info) {
 };
 
 $(document).ready(function(){
-    $.get('/api').done(function(info) {
+    $.get('/api/info/'+_id).done(function(info) {
         fillForm(info);
     });
 });

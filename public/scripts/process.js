@@ -1,4 +1,5 @@
-let _id = window.location.pathname.split('/')[3];
+let _litRes = window.location.pathname.split('/')[2],
+    _id = window.location.pathname.split('/')[4];
 
 /*
 * Process
@@ -28,6 +29,7 @@ let compileProcess = function() {
     // add ts
     let now = new Date();
     process['ts'] = now.toISOString();
+    process['litRes'] = _litRes;
 
     return process;
 };
@@ -42,7 +44,7 @@ let validateProcess = function(process) {
     // check source quality data
     $.each(['q-applicability', 'q-relevance', 'q-holism'], function(key, val) {
         $.each(process, function(attr) {
-            if (!['prev_ptr', 'proposition', 'ts'].includes(attr)) {
+            if (!['prev_ptr', 'proposition', 'ts', 'litRes'].includes(attr)) {
                 if (process[attr][val] === undefined)
                     errors.push('Required attribute [' +val+ '] missing');
                 if (process[attr][val] < 0)
@@ -104,7 +106,7 @@ let saveProcess = function() {
         $.post('/api/processes/'+_id, newProcess, function() {
             toastr.success('Saving new Process-item!');
         }).done(function(data) {
-            window.location = "/admin/results?prev_ptr="+_id;
+            window.location = "/admin/"+_litRes+"/results?prev_ptr="+_id;
         });
     }    
 };

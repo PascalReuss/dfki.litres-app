@@ -4,12 +4,12 @@ var debug = require('debug')('App');
 
 module.exports = function(dataAccess) {
 
-	router.get('/', function(req, res, next) {
-		// note: needs an empty document in collection info initially ... (in an 'init-litResearch' function, this would need to be created)
-		dataAccess.findAllIn('info').done(function(doc) {
-			return res.json(doc[0])
-		});
-	});
+	// router.get('/', function(req, res, next) {
+	// 	// note: needs an empty document in collection info initially ... (in an 'init-litResearch' function, this would need to be created)
+	// 	dataAccess.findAllIn('info').done(function(doc) {
+	// 		return res.json(doc[0])
+	// 	});
+	// });
 
 	router.get('/:stage', function(req, res, next) {
 		dataAccess.findAllIn(req.params.stage).done(function(doc) {
