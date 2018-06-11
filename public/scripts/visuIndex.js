@@ -107,10 +107,10 @@ let fillMetricInputs = function() {
                                 return sum / data.length;
                             }
                             let avg = average(scoreList).toFixed(1);
-                            let std = Math.sqrt(average(scoreList.map(function(num) {
-                                return num - avg;
-                            }))).toFixed(2);
-                            $('#'+p._id+'-'+qScoreAttrNames[i]).val(avg+'  \u00B1'+std);
+                            // let std = Math.sqrt(average(scoreList.map(function(num) {
+                            //     return num - avg;
+                            // }))).toFixed(2);
+                            $('#'+p._id+'-'+qScoreAttrNames[i]).val('~'+avg);
                         } else {
                             $('#'+p._id+'-'+qScoreAttrNames[i]).val('-');
                         }
