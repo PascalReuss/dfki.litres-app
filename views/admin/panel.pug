@@ -1,0 +1,65 @@
+extends ../layout
+
+include ../templates/bootstrap-accordion
+
+block content
+  h1 WIP Literature Research
+  +accordion('accordion')
+    +accordion-item-default('Literature Research Info', 'accordion', false)
+      form(action="#" onsubmit="event.preventDefault();")
+        .form-group
+          label(for="researcher") Researcher
+          input.form-control(type="text" name="researcher" onchange="updateInfo();" required)
+          label(for="supervisor") Supervisor
+          input.form-control(type="text" name="supervisor" onchange="updateInfo();" required)
+          label(for="supervisor") Title
+          input.form-control(type="text" name="title" onchange="updateInfo();" required)
+          label(for="research-Question") Research Question
+          textarea.form-control(name="research-Question" rows="7" onchange="updateInfo();" required)
+    +accordion-item-primary('Active items', 'accordion', true)
+      ul.arrow-list
+        each sre in sres
+          if sre.status == 'active'
+            li
+              | SRE: 
+              a(href='/admin/'+litRes+'/sres/'+sre._id)
+                |Searching for [
+                =sre.keywords
+                |] in [
+                =sre.platforms
+                |]
+        - var itemNameDict = ['Query', 'Process', 'Result']
+        - var collNameDict = ['queries', 'processes', 'results']
+        each list, idx in [queries, processes, results]
+          each item in list
+            if item.status == 'active'
+              li
+                a(href='/admin/'+litRes+'/'+collNameDict[idx]+'/'+item._id)
+                  =itemNameDict[idx] 
+                  if idx == 0
+                    | 
+                    |(
+                    =item.descr
+                    |)
+                  //- else if idx == 1
+                  else if idx == 2           
+                    | 
+                    |(
+                    =item.tldr
+                    |)
+    +accordion-item-info('Draft items (opened refered queries)', 'accordion', false)
+      ul.arrow-list
+        each query in queries
+          if query.status == 'draft'
+            li
+              | Open Query: 
+              a(href='/admin/'+litRes+'/queries/'+query._id)
+                =query.descr
+    +accordion-item-default('Default options (if out of active- and draft-items)', 'accordion', false)
+      ul.arrow-list
+        li
+          a(href='/admin/'+litRes+'/queries') Independant Query
+        li
+          a(href='/admin/'+litRes+'/sres') Independant SRE
+
+  script(src="/scripts/adminIndex.js")

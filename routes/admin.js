@@ -3,14 +3,22 @@ var router = express.Router();
 
 module.exports = function(dataAccess) {
 
+    router.get('/', function(req, res) {
+        dataAccess.findAllIn('info').done(function(info) {
+            return res.render('admin/index',{
+               title: 'Admin Index',
+               litReses: info
+            });
+        });
+    });
+
     router.get('/:litRes/', function(req, res) {
         dataAccess.findAllWhere('sres',{litRes:req.params.litRes}).done(function(sres) {
             dataAccess.findAllWhere('queries',{litRes:req.params.litRes}).done(function(queries) {
                 dataAccess.findAllWhere('processes',{litRes:req.params.litRes}).done(function(processes) {
                     dataAccess.findAllWhere('results',{litRes:req.params.litRes}).done(function(results) {
-                        console.log(queries);
-                        return res.render('admin/index', {
-                            title: 'Admin',
+                        return res.render('admin/panel', {
+                            title: 'Admin Panel',
                             litRes: req.params.litRes,
                             sres: sres,
                             queries: queries,
