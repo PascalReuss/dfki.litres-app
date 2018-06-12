@@ -26,12 +26,12 @@ let fillForm = function(info) {
 let importSrc = function(srcId) {
     let srcEndpoint = '/api/sources/'+srcId;
     $.get(srcEndpoint).done(function(src) {
-        let updatedSrc = src;
-        updatedSrc['litRes'] = src['litRes'].push(_id);
-        console.log(updatedSrc, srcEndpoint);
-        // $.post(srcEndpoint, updatedSrc).done(function(data) {
-        //     console.log(data);
-        // });
+        src['litRes'].push(_id);
+        delete src._id;     // mongo error otherwise !!
+        $.post(srcEndpoint, src).done(function(data) {
+            console.log(data);
+        });
+        $('#'+srcId).prop("disabled", true);
     });
 };
 
