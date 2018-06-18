@@ -10,6 +10,7 @@ let compileQueryDraft = function() {
 let postConnectedQuery = function() {
     let newQueryDraft = compileQueryDraft();
     newQueryDraft['status'] = 'draft';
+    newQueryDraft['litRes'] = _litRes;  // var litRes declared in all js-files that include this modal 
 
     $.post('/api/queries', newQueryDraft, function() {
         toastr.success('Posting new connected Query!');

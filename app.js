@@ -28,7 +28,7 @@ var dataAccess = require('./model/dataAccess')(config);
 app.use('/', require('./routes/index')(dataAccess));
 app.use('/visualization/', require('./routes/visu')(dataAccess));
 app.use('/admin', require('./routes/admin')(dataAccess));
-app.use('/api/', require('./controller/admin')(dataAccess));
+app.use('/api/', require('./controller/api')(dataAccess));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -4,7 +4,7 @@ include ../templates/bootstrap-modal
 
 block content
   link(rel='stylesheet', href='/stylesheets/visu.css')
-  h1 Research Overview
+  h1 #{litRes.title}
 
   h2 Sources:
   .well#sources
@@ -56,15 +56,21 @@ block content
         =sre.keywords
       +modal(sre._id+'-modal', sre.ts, 'Backlog: '+sre.backlog)
         h4 Keywords:
-        ul
-          each keyword in sre.keywords
-            li 
-              =keyword
+        if (sre.keywords !== undefined)
+          ul
+            each keyword in sre.keywords
+              li 
+                =keyword
+        else
+          | No keywords specified
         h4 Platforms:
-        ul
-          each platform in sre.platforms
-            li 
-              =platform
+        if (sre.platforms !== undefined)
+          ul
+            each platform in sre.platforms
+              li 
+                =platform
+        else
+          | No platforms specified
 
   h2 Items (Queries, Processes, Results):
   .table-responsive

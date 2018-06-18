@@ -1,30 +1,37 @@
 extends layout
 
+include ./templates/bootstrap-accordion
+include ./templates/bootstrap-modal
+
 block content
-  h1 DFKI - CBR - Literature Research
 
-  h2 Status
-  .well
-    dl.row
-      each val, key in info
-        if (key === 'latest-Update')
-          dt.col-sm-3 
-            | Latest Update
-          dd.col-sm-9
-            =new Date(val)
-        else if (key !== 'research-Question')
-          dt.col-sm-3 
-            =key[0].toUpperCase()+key.substring(1)
-          dd.col-sm-9
-            =val
-          
-  h2 Research Question
-  .well
-    =info['research-Question']
-
-  h2 Links
-  .well.link-well(onclick='window.location = "/visualization";')
-    | Visualization: Research Overview
-  .well.link-well(onclick='window.location = "/visualization/sources";')
-    | Visualization: Sources
+  h1 Platform for Systematic Literature Research
   
+  h2 Open literature researches
+  +accordion('accordion')
+    each litRes in info
+      -var litResTitle = litRes['status'] === 'finished' ? '\u2714 '+litRes.title : litRes.title;
+      +accordion-item-default(litResTitle, 'accordion')
+        dl.row
+          dt.col-sm-3 Researcher
+          dd.col-sm-9
+            =litRes['researcher']
+          dt.col-sm-3 Supervisor
+          dd.col-sm-9
+            =litRes['supervisor']
+          dt.col-sm-3 Status
+          dd.col-sm-9
+            =litRes['status']
+          dt.col-sm-3 Latest Update
+          dd.col-sm-9
+            =new Date(litRes['latest-Update'])
+        h4 Research Question
+        .well
+          =litRes['research-Question']
+        h4 Links to result visualizations
+        .well.link-well(onclick='window.location = "/visualization/'+litRes._id+'/sources";')
+          | Sources used in this Literature Research
+        .well.link-well(onclick='window.location = "/visualization/'+litRes._id+'";')
+          | Progress Overview
+  .well.link-well(style='background: lightgreen;' onclick='window.location = "/visualization/sources";')
+    | View All Sources

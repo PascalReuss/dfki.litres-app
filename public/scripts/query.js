@@ -1,4 +1,5 @@
-let _id = window.location.pathname.split('/')[3];
+let _litRes = window.location.pathname.split('/')[2],
+    _id = window.location.pathname.split('/')[4];
 
 /*
 * Query
@@ -19,6 +20,7 @@ let compileQuery = function() {
     // add ts
     let now = new Date();
     query['ts'] = now.toISOString();
+    query['litRes'] = _litRes;
 
     return query;
 };
@@ -59,12 +61,12 @@ let saveQuery = function() {
     $.post('/api/queries/'+_id, newQuery, function() {
         toastr.success('Saving new Query!');
     }).done(function(data) {
-        window.location = "/admin/processes?prev_ptr="+_id;
+        window.location = "/admin/"+_litRes+"/processes?prev_ptr="+_id;
     });
 };
 
 let engageSre = function() {
-    window.location = '/admin/sres?prev_ptr='+_id;
+    window.location = '/admin/'+_litRes+'/sres?prev_ptr='+_id;
 };
 
 

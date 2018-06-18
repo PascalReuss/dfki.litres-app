@@ -1,5 +1,6 @@
 node_modules
 npm-debug.log
+*.code-workspace
 
 # ignore config with login data (endpoints, passwords)
 # config/config.js

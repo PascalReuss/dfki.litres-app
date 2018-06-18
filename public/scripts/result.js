@@ -1,4 +1,5 @@
-let _id = window.location.pathname.split('/')[3];
+let _litRes = window.location.pathname.split('/')[2],
+    _id = window.location.pathname.split('/')[4];
 
 /*
 * Result
@@ -19,6 +20,7 @@ let compileResult = function() {
     // add ts
     let now = new Date();
     result['ts'] = now.toISOString();
+    result['litRes'] = _litRes;
 
     return result;
 };
@@ -59,7 +61,7 @@ let saveResult = function() {
     $.post('/api/results/'+_id, newResult, function() {
         toastr.success('Saving new Result!');
     }).done(function(data) {
-        window.location = "/admin";
+        window.location = "/admin/"+_litRes;
     });
 };
 

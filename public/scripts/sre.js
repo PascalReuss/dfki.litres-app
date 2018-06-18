@@ -1,4 +1,5 @@
-let _id = window.location.pathname.split('/')[3];
+let _litRes = window.location.pathname.split('/')[2],
+    _id = window.location.pathname.split('/')[4];
 
 /*
  * Sources
@@ -25,6 +26,7 @@ let compileSource = function() {
   // add urldate
   let now = new Date();
   newSource['urldate'] = now.toISOString().slice(0,10);
+  newSource['litRes'] = [_litRes];
 
   return newSource;
 };
@@ -78,6 +80,7 @@ let compileSRE = function() {
   // add ts
   let now = new Date();
   sre['ts'] = now.toISOString();
+  sre['litRes'] = _litRes;
 
   return sre;
 };
@@ -195,17 +198,21 @@ let saveSre = function() {
     $.post('/api/sres/'+_id, newSre, function() {
       toastr.success('Saving new SRE!');
     }).done(function(data) {
-      window.location = "/admin/queries/"+newSre.prev_ptr;
+      if (newSre.prev_ptr !== undefined) {
+        window.location = "/admin/"+_litRes+"/queries/"+newSre.prev_ptr;
+      } else {  // independent SRE
+        window.location = "/admin/"+_litRes;
+      }
     });
-  }
+  };
 };
 
 
 
-let disableInputs = function() {
-  $('h1').html('Viewing Source Retrieval Effort (SRE)');
-  $('form :input').prop("disabled", true);
-};
+// let disableInputs = function() {
+//   $('h1').html('Viewing Source Retrieval Effort (SRE)');
+//   $('form :input').prop("disabled", true);
+// };
 
 
 $(document).ready(function(){
@@ -216,6 +223,6 @@ $(document).ready(function(){
     if (data.status !== 'done')
       saveSreDraft();       // make query active
     else
-        disableInputs();
+      disableInputs();
   });
 });
