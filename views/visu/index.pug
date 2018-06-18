@@ -18,7 +18,7 @@ block content
       +modal(source._id+'-modal', source.title, 'Retrieved: '+source.urldate)
         dl.row
           each val, key in source
-            if (['_id','title','urldate', 'ptrs'].indexOf(key) < 0)
+            if (['_id','title','urldate', 'ptrs', 'litRes'].indexOf(key) < 0)
               if (key.substring(0,2) === 'q-')
                 -var name = key.substring(2).replace(/(?:^|\.?)([A-Z])/g, function (x,y){return " " + y.toUpperCase()}).replace(/^_/, "")
                 dt.col-sm-5
@@ -87,22 +87,23 @@ block content
               -statusColor = 'yellow'
             else if (item.status == 'draft')
               -statusColor = 'orange'
+            -var itemSrcsLength = item.srcs !== undefined ? item.srcs.length : 0
 
             td
               .well.item(id=item._id style='border-color:'+statusColor+';'
                 onmouseenter='showLinking("query","'+item._id+'", true);'
                 onmouseleave='showLinking("query","'+item._id+'", false);')
-                a(target='_blank' href='/admin/queries/'+item._id)
-                  span.glyphicon.glyphicon-link
+                a(data-toggle="modal" href='#'+item._id+'-modal')
+                  span.glyphicon.glyphicon-info-sign
                 b
-                  | Num. of Sources: 
-                if (item.srcs !== undefined)
-                  =item.srcs.length
-                else
-                  | 0
+                  | Num. of Sources: #{itemSrcsLength}
                 p
                   i
                     =item.descr
+            +modal(item._id+'-modal', 'Query, '+itemSrcsLength+' sources found applicable')
+              h4 Description:
+              p
+                =item.descr
                     
         tr
           td.th-left Processes
@@ -125,8 +126,8 @@ block content
                 .well.item(id=item._id style='border-color:'+statusColor+';'
                   onmouseenter='showLinking("process","'+item._id+'", true);'
                   onmouseleave='showLinking("process","'+item._id+'", false);')
-                  a(target='_blank' href='/admin/processes/'+item._id)
-                    span.glyphicon.glyphicon-link
+                  a(data-toggle="modal" href='#'+item._id+'-modal')
+                    span.glyphicon.glyphicon-info-sign
                   b App. 
                   input(id=item._id+'-q-applicability' type='text' disabled)
                   b  Rel. 
@@ -136,6 +137,17 @@ block content
                   //- p
                   //-   i
                   //-     =item.proposition
+              +modal(item._id+'-modal', 'Process')
+                each val,key in item
+                  if (['_id','prev_ptr','proposition','status','litRes','ts'].indexOf(key) < 0)
+                    each src in sources
+                      if (src._id == key)
+                        | "#{src['title']}" (SR:#{src['q-subjectRelevance']} | IC:#{src['q-informativeContent']} | Con:#{src['q-context']} | Ill:#{src['q-illustration']})
+                        ul
+                          li
+                            | App. #{val['q-applicability']} | Rel. #{val['q-relevance']} | Hol. #{val['q-holism']}
+                          li
+                            =val['comment']
             else
               td
               
@@ -162,8 +174,8 @@ block content
                 .well.item(id=item._id style='border-color:'+statusColor+';'
                   onmouseenter='showLinking("result","'+item._id+'", true);'
                   onmouseleave='showLinking("result","'+item._id+'", false);')
-                  a(target='_blank' href='/admin/results/'+item._id)
-                    span.glyphicon.glyphicon-link
+                  a(data-toggle="modal" href='#'+item._id+'-modal')
+                    span.glyphicon.glyphicon-info-sign
                   b Eff. 
                   input(id=item._id+'-q-researchEffort' type='text' disabled)
                   b  Nov. 
@@ -173,6 +185,17 @@ block content
                   p
                     i
                       =item.tldr
+              +modal(item._id+'-modal', 'Result')
+                ul
+                  li Research Effort: #{item['q-researchEffort']}
+                  li Novelty: #{item['q-novelty']}
+                  li Quality-of-Result: #{item['q-qor']}
+                h4 TLDR:
+                p 
+                  =item.tldr
+                h4 Description:
+                p 
+                  =item.descr
             else
               td
 
