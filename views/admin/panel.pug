@@ -72,6 +72,11 @@ block content
       ul.arrow-list
         li 
           a(data-toggle="modal" href="#importSources-modal") Import sources
+      p(style="color:red;") DANGER-ZONE
+      ul.arrow-list
+        li
+          a(data-toggle="modal" href="#finishLitRes-modal") Finish Literature Reseach
+
   
   +modal('importSources-modal','Import sources from previous Literature Researches into this one')
     dl.row
@@ -85,5 +90,13 @@ block content
           | "
           a(href='/api/sources/'+src._id, target='_blank') #{src.title}
           |"
+  +modal('finishLitRes-modal', 'Mark Literature-Research as finished')
+    p(style="color: red; font-size: 2em; text-align: center;")
+      | Taking this action will mark your Literature Research finished,
+      |  preventing it from being edited further and displaying it as being complete.
+      br
+      | Do you understand and wish to proceed?
+    center
+      button.btn.btn-danger(type="button" onclick="finishLitRes();") Finish Literature Research
 
   script(src="/scripts/adminPanel.js")

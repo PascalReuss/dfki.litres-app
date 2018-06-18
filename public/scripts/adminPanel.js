@@ -35,6 +35,17 @@ let importSrc = function(srcId) {
     });
 };
 
+let finishLitRes = function() {
+    let infoEndpoint = '/api/info/'+_id;
+    $.get(infoEndpoint).done(function(info) {
+        info['status'] = 'finished';
+        delete info._id;     // mongo error otherwise !!
+        $.post(infoEndpoint, info).done(function(data) {
+            console.log(data);
+        });
+    });
+}
+
 $(document).ready(function(){
     $.get('/api/info/'+_id).done(function(info) {
         fillForm(info);
