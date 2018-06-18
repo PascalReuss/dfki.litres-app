@@ -5,7 +5,7 @@ include ./templates/bootstrap-modal
 
 block content
 
-  h1 Platform for Literature Research
+  h1 Platform for Systematic Literature Research
   
   h2 Open literature researches
   +accordion('accordion')
@@ -26,6 +26,8 @@ block content
           =litRes['research-Question']
         h4 Links to result visualizations
         .well.link-well(onclick='window.location = "/visualization/'+litRes._id+'/sources";')
-          | Sources-Catalogue
+          | Sources used in this Literature Research
         .well.link-well(onclick='window.location = "/visualization/'+litRes._id+'";')
           | Progress Overview
+  .well.link-well(style='background: lightgreen;' onclick='window.location = "/visualization/sources";')
+    | View All Sources

@@ -1,3 +1,5 @@
+include ../node_modules/jade-bootstrap/components/navbar
+
 doctype html
 html
   head
@@ -14,4 +16,9 @@ html
     script(src='/scripts/helper.js')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+    +navbar-fixed('PfSLR', 'navMain')
+      +nav_item('/', '')
+        | Index
+      +nav_item('/visualization/sources', '')
+        | View All Sources
     block content
