@@ -28,6 +28,10 @@ block content
   +modal('startNewLitRes-modal', 'Engaging new Literature Research')
     form#newLitRes-form(action="#" method="post" onsubmit="event.preventDefault(); postNewLitRes();")
       .form-group
+        label(for='researcher') Researcher
+        input.form-control(name='researcher' type='text' required)
+        label(for='supervisor') Supervisor
+        input.form-control(name='supervisor' type='text' required)
         label(for='title') Title
         input.form-control(name='title' type='text' required)
         label(for="research-Question") Research Question

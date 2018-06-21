@@ -35,12 +35,13 @@ module.exports = function(dataAccess) {
 			dataAccess.replaceDocIn('info', newInfo['_id'], newInfo);
 		});
 	};
-	
 	router.post('/:stage', function(req, res, next) {
-		dataAccess.insertDocInto(req.params.stage, req.body).done(function() {
+		dataAccess.insertDocInto(req.params.stage, req.body).done(function(insertRes) {
 			if (req.params.stage === 'sources') {
 				updateTsInInfo(req.body['litRes'][0]);
-			} else if (req.params.stage !== 'info') {
+			} else if (req.params.stage === 'info') {	// if info inserted: new LitRes
+				updateTsInInfo(insertRes.insertedId);
+			} else {
 				updateTsInInfo(req.body['litRes']);
 			}
 			return res.send({
@@ -52,7 +53,11 @@ module.exports = function(dataAccess) {
 
 	router.post('/:stage/:id', function (req, res, next) {
 		dataAccess.replaceDocIn(req.params.stage, req.params.id, req.body).done(function() {
-			if (req.params.stage !== 'info' && req.params.stage !== 'sources') {
+			if (req.params.stage === 'info') {
+				updateTsInInfo(req.params.id);
+			} else if (req.params.stage === 'sources') {
+				// skip sources, no ts associated
+			} else {
 				updateTsInInfo(req.body['litRes']);
 			}
 			return res.send({

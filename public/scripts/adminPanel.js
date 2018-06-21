@@ -6,6 +6,7 @@ let updateInfo = function() {
     keys.forEach(function(key, i) {
         info[key] = $('form :input[name='+key+']').val();
         if (i === keys.length - 1) {
+            info['status'] = 'active';
             $.post('/api/info/'+_id, info).done(function(data) {
                 console.log(data);
             });
@@ -41,7 +42,7 @@ let finishLitRes = function() {
         info['status'] = 'finished';
         delete info._id;     // mongo error otherwise !!
         $.post(infoEndpoint, info).done(function(data) {
-            console.log(data);
+            window.location = '/admin';
         });
     });
 }
