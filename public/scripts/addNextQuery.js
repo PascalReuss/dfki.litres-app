@@ -1,7 +1,7 @@
 let compileQueryDraft = function() {
     let query = {};
 
-    query['prev_ptr'] = window.location.pathname.split('/')[3];
+    query['prev_ptr'] = window.location.pathname.split('/')[4];
     query['descr'] = $('textarea[name="nxt-descr"]').val();
 
     return query;
