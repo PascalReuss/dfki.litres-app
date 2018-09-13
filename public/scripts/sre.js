@@ -34,7 +34,7 @@ let compileSource = function() {
 let validateSource = function(source) {
   let errors = [];
   // check source data
-  $.each(['url', 'type', 'title', 'date', 'abstract'], function(key, val) {
+  $.each(['bibtex', 'url', 'type', 'title', 'date', 'abstract'], function(key, val) {
     if (source[val] === undefined)
       errors.push('Required attribute [' +val+ '] missing');
   });
@@ -204,6 +204,30 @@ let saveSre = function() {
 //   $('h1').html('Viewing Source Retrieval Effort (SRE)');
 //   $('form :input').prop("disabled", true);
 // };
+
+let pasteBibtex = function() {
+  let bibtex = doParseBibtex($('#rawBibtex').val());
+  Object.keys(bibtex).forEach(function(key) {
+    console.log(key);
+    if(key !== "@comments") {
+      let bibtexObj = bibtex[key];
+      $('input[name=src-url]').val(bibtexObj['URL']);
+      $('input[name=src-type]').val(bibtexObj['entryType']);
+      $('input[name=src-title]').val(bibtexObj['TITLE']);
+      $('input[name=src-authors]').val(bibtexObj['AUTHOR']);
+      $('input[name=src-keywords]').val(bibtexObj['KEYWORDS']);
+      if (bibtexObj['YEAR'] !== undefined) {
+        if (bibtexObj['MONTH'] !== undefined) {
+          $('input[name=src-date]').val(`${bibtexObj['YEAR']}-${bibtexObj['MONTh']}-01`);
+        } else {
+          $('input[name=src-date]').val(`${bibtexObj['YEAR']}-01-01`);
+        }
+      }
+      $('input[name=src-abstract]').val(bibtexObj['ABSTRACT']);
+      toastr.warning('Autocompleted from bibtex. Please double-check entries! (especially AUTHOR)');
+    }
+  });
+};
 
 
 $(document).ready(function(){
