@@ -4,28 +4,29 @@ include ../templates/bootstrap-modal
 
 block content
   h1 Creating: Source Retrieval Effort (SRE)
-
-  form#newSRE-form.well(action="#" onsubmit="event.preventDefault(); saveSre();")
-    div.form-group
-      input.form-control(type="hidden" name="prev_ptr")
-      // ts added upon submission
-      label(for="platforms")
-        | Platforms
-      input.form-control(type="text" name="platforms" placeholder="Google, Google Scholar, Linkedin, ..." onchange="saveSreDraft();" required)
-      label(for="keywords")
-        | Keywords
-      input.form-control(type="text" name="keywords" placeholder="cbr, case based reasoning, dl, artificial intelligence, ..." onchange="saveSreDraft();" required)
-      label(for="sources")
-        | Sources:
-      input.form-control(type="hidden" name="sources")
-
-      ul#retrievedSources-ul
-        // loaded via js
-      label(for="backlog")
-        | Browsing Backlog
-      input(type="file" name="backlog" size="50" accept="text/*" onchange="saveSreDraft();" required)
-    input.btn.btn-success(type="submit")
-    button.btn.btn-info(type="button" data-toggle="modal" data-target="#addSource-modal" style="float: right;") Add source
+  
+  .container
+    .row.well
+      form#newSRE-form(action="#" onsubmit="event.preventDefault(); saveSre();")
+        //- .form-group
+        .col-md-6
+          input.form-control(type="hidden" name="prev_ptr")
+          // ts added upon submission
+          label(for="platforms")
+            | Platforms
+          input.form-control(type="text" name="platforms" placeholder="Google, Google Scholar, Linkedin, ..." onchange="saveSreDraft();" required)
+          label(for="keywords")
+            | Keywords
+          input.form-control(type="text" name="keywords" placeholder="cbr, case based reasoning, dl, artificial intelligence, ..." onchange="saveSreDraft();" required)
+        .col-md-6
+          label(for="sources")
+            | Sources:
+          input.form-control(type="hidden" name="sources")
+          ul#retrievedSources-ul
+            li 
+              button.btn.btn-info(type="button" data-toggle="modal" data-target="#addSource-modal") Add source
+            // loaded via js
+          input.btn.btn-success(type="submit")
   
   //- TODO: redo this with proper pug-bootstrap-tempalte (and proper pug syntax)
   +modal('addSource-modal',

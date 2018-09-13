@@ -67,8 +67,6 @@ let compileSRE = function() {
       // TODO: properly chcek for non-comma-separated values, then do single-attr-fill
       if (name === 'prev_ptr')
         sre['prev_ptr'] = val;
-      else if (name === 'backlog')
-        sre['backlog'] = val;
       else {
         // separate list-strings (try-catch in case is still empty)
         try {
@@ -88,11 +86,10 @@ let compileSRE = function() {
 let validateSRE = function(sre) {
   let errors = [];
   // check required inputs
-  $.each(['platforms', 'keywords', 'backlog'], function(key, val) {
-    if (isEmptyArray(sre[val]))
+  $.each(['platforms', 'keywords', 'sources'], function(key, val) {
+    if (sre[val] === undefined || isEmptyArray(sre[val]))
       errors.push('Required attribute [' +val+ '] has no values');
   });
-
   return errors;
 };
 
@@ -134,8 +131,6 @@ let fillForm = function(draft) {
       });
     }
   } catch(err) {}
-
-  // backlog not loaded from draft (input with type file has no value attribute)
 };
 
 let saveSrc = function() {
@@ -183,10 +178,6 @@ let saveSreDraft = function() {
 let saveSre = function() {
   let newSre = compileSRE();
   let errors = validateSRE(newSre);
-
-  // warn if no sources attached
-  if (isEmptyArray(newSre['sources']))
-    toastr.warn('Required attribute ['+val+'] has no values');
 
   // if there are errors, display them; otherwise post source
   if (errors.length > 0) {
