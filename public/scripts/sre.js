@@ -34,7 +34,7 @@ let compileSource = function() {
 let validateSource = function(source) {
   let errors = [];
   // check source data
-  $.each(['url', 'type', 'title', 'date', 'abstract'], function(key, val) {
+  $.each(['bibtex', 'url', 'type', 'title', 'date', 'abstract'], function(key, val) {
     if (source[val] === undefined)
       errors.push('Required attribute [' +val+ '] missing');
   });
@@ -67,8 +67,6 @@ let compileSRE = function() {
       // TODO: properly chcek for non-comma-separated values, then do single-attr-fill
       if (name === 'prev_ptr')
         sre['prev_ptr'] = val;
-      else if (name === 'backlog')
-        sre['backlog'] = val;
       else {
         // separate list-strings (try-catch in case is still empty)
         try {
@@ -88,11 +86,10 @@ let compileSRE = function() {
 let validateSRE = function(sre) {
   let errors = [];
   // check required inputs
-  $.each(['platforms', 'keywords', 'backlog'], function(key, val) {
-    if (isEmptyArray(sre[val]))
+  $.each(['platforms', 'keywords', 'sources'], function(key, val) {
+    if (sre[val] === undefined || isEmptyArray(sre[val]))
       errors.push('Required attribute [' +val+ '] has no values');
   });
-
   return errors;
 };
 
@@ -134,8 +131,6 @@ let fillForm = function(draft) {
       });
     }
   } catch(err) {}
-
-  // backlog not loaded from draft (input with type file has no value attribute)
 };
 
 let saveSrc = function() {
@@ -184,10 +179,6 @@ let saveSre = function() {
   let newSre = compileSRE();
   let errors = validateSRE(newSre);
 
-  // warn if no sources attached
-  if (isEmptyArray(newSre['sources']))
-    toastr.warn('Required attribute ['+val+'] has no values');
-
   // if there are errors, display them; otherwise post source
   if (errors.length > 0) {
     $.each(errors, function(key, val) {
@@ -213,6 +204,30 @@ let saveSre = function() {
 //   $('h1').html('Viewing Source Retrieval Effort (SRE)');
 //   $('form :input').prop("disabled", true);
 // };
+
+let pasteBibtex = function() {
+  let bibtex = doParseBibtex($('#rawBibtex').val());
+  Object.keys(bibtex).forEach(function(key) {
+    console.log(key);
+    if(key !== "@comments") {
+      let bibtexObj = bibtex[key];
+      $('input[name=src-url]').val(bibtexObj['URL']);
+      $('input[name=src-type]').val(bibtexObj['entryType']);
+      $('input[name=src-title]').val(bibtexObj['TITLE']);
+      $('input[name=src-authors]').val(bibtexObj['AUTHOR']);
+      $('input[name=src-keywords]').val(bibtexObj['KEYWORDS']);
+      if (bibtexObj['YEAR'] !== undefined) {
+        if (bibtexObj['MONTH'] !== undefined) {
+          $('input[name=src-date]').val(`${bibtexObj['YEAR']}-${bibtexObj['MONTh']}-01`);
+        } else {
+          $('input[name=src-date]').val(`${bibtexObj['YEAR']}-01-01`);
+        }
+      }
+      $('input[name=src-abstract]').val(bibtexObj['ABSTRACT']);
+      toastr.warning('Autocompleted from bibtex. Please double-check entries! (especially AUTHOR)');
+    }
+  });
+};
 
 
 $(document).ready(function(){

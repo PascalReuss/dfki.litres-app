@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "DEBUG=App nodemon --harmony_array_includes ./bin/www",
+    "start": "DEBUG=App nodemon ./bin/www",
     "stop": "pkill --signal SIGINT procTitle",
     "//": {
       "test": "npm run test-unit && npm run test-integration",
